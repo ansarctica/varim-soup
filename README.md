@@ -1,4 +1,5 @@
 
+
 ## Dataset
 
 As a foundation for real, messy Russian data I used a mail.ru "https://www.kaggle.com/datasets/atleast6characterss/otvetmailru-full" dataset. But I had to edit answers to get response pairs that will contrast each other in a way. In our case: politeness vs rudeness (often subtle).
@@ -8,7 +9,7 @@ So the data is half-synthetic. I iteratively used multiple blind AI judges/edito
 
 ![Pre-training VRAM calculation](assets/memory-budget.png)
 
-Before training, I estimated 7.95 GB of live GPU allocations.
+Before training, I estimated 7.95 GB of live GPU allocations, which sounded OK for 4-bit Qwen-3 9B.
 
 During the final run, Soup reported ~6.4 GiB, while `nvidia-smi` sampling peaked at 14.38 GiB (~95% of the T4). Why do they differ so much? Well, Soup reports memory occupied by PyTorch tensors. `nvidia-smi` samples total memory used on the GPU, including PyTorch's cached blocks and CUDA overhead; other processes can contribute too. I forgot to record `torch.cuda.max_memory_reserved()` inside Soup's training process, so I cannot dig deeper unfortunately.
 
