@@ -1,0 +1,1050 @@
+2026-09-30T00:39:37.078458+00:00 Loading config from /kaggle/working/dpo_20260930T003836Z/soup.yaml...
+2026-09-30T00:39:38.963010+00:00 ╭─────────────────────────────── Training Setup ───────────────────────────────╮
+2026-09-30T00:39:38.963162+00:00 │ Device:  Tesla T4                                                            │
+2026-09-30T00:39:38.963192+00:00 │ Memory:  14.6 GB                                                             │
+2026-09-30T00:39:38.963219+00:00 │ Model:   Qwen/Qwen3-8B                                                       │
+2026-09-30T00:39:38.963235+00:00 │ Task:    dpo                                                                 │
+2026-09-30T00:39:38.963259+00:00 │ Backend: transformers                                                        │
+2026-09-30T00:39:38.963281+00:00 │ LoRA:    r=8, alpha=16                                                       │
+2026-09-30T00:39:38.963302+00:00 │ Quant:   4bit                                                                │
+2026-09-30T00:39:38.963322+00:00 │ Seed:    42                                                                  │
+2026-09-30T00:39:38.963344+00:00 ╰──────────────────────────────────────────────────────────────────────────────╯
+2026-09-30T00:39:38.963881+00:00 Loading dataset...
+2026-09-30T00:39:38.972942+00:00 Loaded: 504 train samples
+2026-09-30T00:39:39.048062+00:00 Run ID: run_20260930_003939_9bb32c29
+2026-09-30T00:39:39.048986+00:00 Setting up model + trainer...
+2026-09-30T00:39:55.956773+00:00 Loading tokenizer: Qwen/Qwen3-8B
+2026-09-30T00:39:57.317697+00:00 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+2026-09-30T00:39:57.566629+00:00 
+2026-09-30T00:41:06.188681+00:00 Fetching 11 files:   0%|          | 0/11 [00:00<?, ?it/s]
+2026-09-30T00:41:10.988509+00:00 Fetching 11 files:  27%|██▋       | 3/11 [01:08<03:02, 22.87s/it]
+2026-09-30T00:41:10.988821+00:00 Fetching 11 files:  36%|███▋      | 4/11 [01:13<01:59, 17.04s/it]
+2026-09-30T00:41:10.988899+00:00 Fetching 11 files: 100%|██████████| 11/11 [01:13<00:00,  6.67s/it]
+2026-09-30T00:41:10.993049+00:00 ╭────────────────────── Layer streaming disk pre-flight ───────────────────────╮
+2026-09-30T00:41:10.993097+00:00 │ HF/local source: 16.38 GB                                                    │
+2026-09-30T00:41:10.993112+00:00 │ Soup materialized copy: 16.38 GB (write required)                            │
+2026-09-30T00:41:10.993123+00:00 │ Layer-shard cache: 4.23 GB (write required)                                  │
+2026-09-30T00:41:10.993135+00:00 │ Projected total on disk: 36.99 GB                                            │
+2026-09-30T00:41:10.993147+00:00 │ Additional writes before training: 20.61 GB                                  │
+2026-09-30T00:41:10.993158+00:00 │ Free on target volume (materialized weight copy + layer-shard cache):        │
+2026-09-30T00:41:10.993169+00:00 │ 1184.88 GB                                                                   │
+2026-09-30T00:41:10.993179+00:00 ╰──────────────────────────────────────────────────────────────────────────────╯
+2026-09-30T00:43:21.157963+00:00 [transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+2026-09-30T00:43:22.386428+00:00 Preparing layer shards -> /root/.soup/layer-stream/Qwen__Qwen3-8B
+2026-09-30T00:43:22.387605+00:00 Re-sharding layer cache: cache index is missing or unreadable.
+2026-09-30T00:44:47.135037+00:00 ╭─────────────────────────── training.stream_layers ───────────────────────────╮
+2026-09-30T00:44:47.135984+00:00 │ Layer streaming BETA — arch qwen3, tier ram                                  │
+2026-09-30T00:44:47.136223+00:00 │   base store   6.07 GB across 36 layers (pinned)                             │
+2026-09-30T00:44:47.136244+00:00 │   VRAM buffers 2 x 100 MB + 1 x 1245 MB large-layer slot = 1444 MB           │
+2026-09-30T00:44:47.136256+00:00 │   resident     0 MB extras + adapters                                        │
+2026-09-30T00:44:47.136266+00:00 │   peak VRAM    ~6.70 GB at batch 1 x seq 1024 (2 rows — chosen+rejected are  │
+2026-09-30T00:44:47.136277+00:00 │ one concatenated tensor) (logits 4.36 GB)                                    │
+2026-09-30T00:44:47.136287+00:00 │   free VRAM    15.51 GB                                                      │
+2026-09-30T00:44:47.136298+00:00 │   forecast     291-427 tok/s — a compute-bound bound, not a promise          │
+2026-09-30T00:44:47.136308+00:00 │                (from 21.00 TFLOPS measured on this card now using float16 @  │
+2026-09-30T00:44:47.136318+00:00 │ 1125 MHz)                                                                    │
+2026-09-30T00:44:47.136328+00:00 │   ! accumulating 8x at batch 1: the base is re-read once per micro-batch.    │
+2026-09-30T00:44:47.136338+00:00 │ Per token that is free, but reaching effective batch 8 by raising            │
+2026-09-30T00:44:47.136348+00:00 │ training.batch_size instead measured ~2.5x faster. Accumulation holds peak   │
+2026-09-30T00:44:47.136358+00:00 │ VRAM flat, so raise batch_size while the budget above allows, then           │
+2026-09-30T00:44:47.136368+00:00 │ accumulate for the rest.                                                     │
+2026-09-30T00:44:47.136378+00:00 ╰──────────────────────────────────────────────────────────────────────────────╯
+2026-09-30T00:44:47.136400+00:00 Layer streaming is BETA: slower than resident training, but this model may not 
+2026-09-30T00:44:47.136414+00:00 run resident on this card at all.
+2026-09-30T00:44:47.137424+00:00 expandable_segments allocator hint not enabled: CUDA was already initialised 
+2026-09-30T00:44:47.137448+00:00 before Soup could set it — the allocator reads PYTORCH_CUDA_ALLOC_CONF once, at 
+2026-09-30T00:44:47.137459+00:00 context creation
+2026-09-30T00:45:08.066486+00:00 Layer streaming ready: 36 layers, 6.07 GB pinned RAM store, 2 x 100 MB decoder 
+2026-09-30T00:45:08.067478+00:00 buffers + 1 x 1245 MB large-layer slot
+2026-09-30T00:45:08.071817+00:00 LoRA applied: 3,833,856 trainable / 8,190,735,360 total (0.05%)
+2026-09-30T00:45:11.419182+00:00 
+2026-09-30T00:45:11.524942+00:00 Tokenizing train dataset:   0%|          | 0/504 [00:00<?, ? examples/s]
+2026-09-30T00:45:11.627831+00:00 Tokenizing train dataset:   3%|▎         | 14/504 [00:00<00:03, 133.04 examples/s]
+2026-09-30T00:45:11.730676+00:00 Tokenizing train dataset:   8%|▊         | 39/504 [00:00<00:02, 197.12 examples/s]
+2026-09-30T00:45:11.834631+00:00 Tokenizing train dataset:  13%|█▎        | 65/504 [00:00<00:01, 222.41 examples/s]
+2026-09-30T00:45:11.937955+00:00 Tokenizing train dataset:  17%|█▋        | 88/504 [00:00<00:01, 221.95 examples/s]
+2026-09-30T00:45:12.040425+00:00 Tokenizing train dataset:  22%|██▏       | 112/504 [00:00<00:01, 225.74 examples/s]
+2026-09-30T00:45:12.144320+00:00 Tokenizing train dataset:  27%|██▋       | 138/504 [00:00<00:01, 235.01 examples/s]
+2026-09-30T00:45:12.247577+00:00 Tokenizing train dataset:  35%|███▌      | 178/504 [00:00<00:01, 284.29 examples/s]
+2026-09-30T00:45:12.351113+00:00 Tokenizing train dataset:  44%|████▍     | 222/504 [00:00<00:00, 329.35 examples/s]
+2026-09-30T00:45:12.508313+00:00 Tokenizing train dataset:  52%|█████▏    | 263/504 [00:00<00:00, 350.42 examples/s]
+2026-09-30T00:45:12.660873+00:00 Tokenizing train dataset:  62%|██████▎   | 315/504 [00:01<00:00, 342.52 examples/s]
+2026-09-30T00:45:12.766444+00:00 Tokenizing train dataset:  73%|███████▎  | 366/504 [00:01<00:00, 339.41 examples/s]
+2026-09-30T00:45:12.871101+00:00 Tokenizing train dataset:  80%|███████▉  | 403/504 [00:01<00:00, 342.34 examples/s]
+2026-09-30T00:45:12.973550+00:00 Tokenizing train dataset:  87%|████████▋ | 440/504 [00:01<00:00, 345.53 examples/s]
+2026-09-30T00:45:13.129833+00:00 Tokenizing train dataset:  96%|█████████▌| 485/504 [00:01<00:00, 371.08 examples/s]
+2026-09-30T00:45:13.129948+00:00 Tokenizing train dataset: 100%|██████████| 504/504 [00:01<00:00, 294.72 examples/s]
+2026-09-30T00:45:13.162299+00:00 
+2026-09-30T00:45:13.265099+00:00 Map:   0%|          | 0/504 [00:00<?, ? examples/s]
+2026-09-30T00:45:13.365522+00:00 Map:  47%|████▋     | 239/504 [00:00<00:00, 2329.99 examples/s]
+2026-09-30T00:45:13.415941+00:00 Map:  97%|█████████▋| 489/504 [00:00<00:00, 2423.05 examples/s]
+2026-09-30T00:45:13.416077+00:00 Map: 100%|██████████| 504/504 [00:00<00:00, 1988.66 examples/s]
+2026-09-30T00:45:13.437803+00:00 Training started!
+2026-09-30T00:45:13.437895+00:00 
+2026-09-30T00:45:13.451673+00:00 [transformers] The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None, 'pad_token_id': 151643}.
+2026-09-30T00:45:13.954195+00:00 
+2026-09-30T00:45:38.030348+00:00   0%|          | 0/189 [00:00<?, ?it/s]
+2026-09-30T00:45:38.031078+00:00   1%|          | 1/189 [00:24<1:15:26, 24.08s/it]
+2026-09-30T00:45:38.031310+00:00                                                  
+2026-09-30T00:45:38.031349+00:00 
+2026-09-30T00:45:57.062202+00:00   1%|          | 1/189 [00:24<1:15:26, 24.08s/it]
+2026-09-30T00:45:57.062717+00:00   1%|          | 2/189 [00:43<1:05:47, 21.11s/it]
+2026-09-30T00:45:57.062963+00:00                                                  
+2026-09-30T00:45:57.063004+00:00 
+2026-09-30T00:46:15.678952+00:00   1%|          | 2/189 [00:43<1:05:47, 21.11s/it]
+2026-09-30T00:46:15.679451+00:00   2%|▏         | 3/189 [01:01<1:01:54, 19.97s/it]
+2026-09-30T00:46:15.679764+00:00                                                  
+2026-09-30T00:46:15.679807+00:00 
+2026-09-30T00:46:33.431153+00:00   2%|▏         | 3/189 [01:01<1:01:54, 19.97s/it]
+2026-09-30T00:46:33.431612+00:00   2%|▏         | 4/189 [01:19<58:52, 19.09s/it]  
+2026-09-30T00:46:33.431767+00:00                                                
+2026-09-30T00:46:33.431789+00:00 
+2026-09-30T00:46:50.773796+00:00   2%|▏         | 4/189 [01:19<58:52, 19.09s/it]
+2026-09-30T00:46:50.774279+00:00   3%|▎         | 5/189 [01:36<56:37, 18.46s/it]
+2026-09-30T00:46:50.774512+00:00                                                
+2026-09-30T00:46:50.774565+00:00 
+2026-09-30T00:47:09.312226+00:00   3%|▎         | 5/189 [01:36<56:37, 18.46s/it]
+2026-09-30T00:47:09.312764+00:00   3%|▎         | 6/189 [01:55<56:23, 18.49s/it]
+2026-09-30T00:47:09.312973+00:00                                                
+2026-09-30T00:47:09.313011+00:00 
+2026-09-30T00:47:31.534521+00:00   3%|▎         | 6/189 [01:55<56:23, 18.49s/it]
+2026-09-30T00:47:31.535137+00:00   4%|▎         | 7/189 [02:17<59:47, 19.71s/it]
+2026-09-30T00:47:31.535303+00:00                                                
+2026-09-30T00:47:31.535325+00:00 
+2026-09-30T00:47:56.254894+00:00   4%|▎         | 7/189 [02:17<59:47, 19.71s/it]
+2026-09-30T00:47:56.255460+00:00   4%|▍         | 8/189 [02:42<1:04:16, 21.30s/it]
+2026-09-30T00:47:56.255635+00:00                                                  
+2026-09-30T00:47:56.255722+00:00 
+2026-09-30T00:48:16.100431+00:00   4%|▍         | 8/189 [02:42<1:04:16, 21.30s/it]
+2026-09-30T00:48:16.100973+00:00   5%|▍         | 9/189 [03:02<1:02:32, 20.85s/it]
+2026-09-30T00:48:16.101208+00:00                                                  
+2026-09-30T00:48:16.101264+00:00 
+2026-09-30T00:48:37.322049+00:00   5%|▍         | 9/189 [03:02<1:02:32, 20.85s/it]
+2026-09-30T00:48:37.322468+00:00   5%|▌         | 10/189 [03:23<1:02:32, 20.96s/it]
+2026-09-30T00:48:37.322525+00:00                                                   
+2026-09-30T00:48:37.322541+00:00 
+2026-09-30T00:48:59.200354+00:00   5%|▌         | 10/189 [03:23<1:02:32, 20.96s/it]
+2026-09-30T00:48:59.200857+00:00   6%|▌         | 11/189 [03:45<1:03:01, 21.24s/it]
+2026-09-30T00:48:59.200907+00:00                                                   
+2026-09-30T00:48:59.200922+00:00 
+2026-09-30T00:49:17.561421+00:00   6%|▌         | 11/189 [03:45<1:03:01, 21.24s/it]
+2026-09-30T00:49:17.561887+00:00   6%|▋         | 12/189 [04:03<1:00:04, 20.37s/it]
+2026-09-30T00:49:17.561964+00:00                                                   
+2026-09-30T00:49:17.561980+00:00 
+2026-09-30T00:49:39.143892+00:00   6%|▋         | 12/189 [04:03<1:00:04, 20.37s/it]
+2026-09-30T00:49:39.144293+00:00   7%|▋         | 13/189 [04:25<1:00:49, 20.73s/it]
+2026-09-30T00:49:39.144430+00:00                                                   
+2026-09-30T00:49:39.144449+00:00 
+2026-09-30T00:49:59.351378+00:00   7%|▋         | 13/189 [04:25<1:00:49, 20.73s/it]
+2026-09-30T00:49:59.351860+00:00   7%|▋         | 14/189 [04:45<1:00:00, 20.58s/it]
+2026-09-30T00:49:59.351910+00:00                                                   
+2026-09-30T00:49:59.351926+00:00 
+2026-09-30T00:50:19.953504+00:00   7%|▋         | 14/189 [04:45<1:00:00, 20.58s/it]
+2026-09-30T00:50:19.953985+00:00   8%|▊         | 15/189 [05:05<59:41, 20.58s/it]  
+2026-09-30T00:50:19.954033+00:00                                                 
+2026-09-30T00:50:19.954048+00:00 
+2026-09-30T00:50:42.286581+00:00   8%|▊         | 15/189 [05:05<59:41, 20.58s/it]
+2026-09-30T00:50:42.286924+00:00   8%|▊         | 16/189 [05:28<1:00:52, 21.11s/it]
+2026-09-30T00:50:42.287140+00:00                                                   
+2026-09-30T00:50:42.287163+00:00 
+2026-09-30T00:51:00.552969+00:00   8%|▊         | 16/189 [05:28<1:00:52, 21.11s/it]
+2026-09-30T00:51:00.553425+00:00   9%|▉         | 17/189 [05:46<58:03, 20.26s/it]  
+2026-09-30T00:51:00.553479+00:00                                                 
+2026-09-30T00:51:00.553494+00:00 
+2026-09-30T00:51:20.395606+00:00   9%|▉         | 17/189 [05:46<58:03, 20.26s/it]
+2026-09-30T00:51:20.396086+00:00  10%|▉         | 18/189 [06:06<57:22, 20.13s/it]
+2026-09-30T00:51:20.396316+00:00                                                 
+2026-09-30T00:51:20.396357+00:00 
+2026-09-30T00:51:43.826632+00:00  10%|▉         | 18/189 [06:06<57:22, 20.13s/it]
+2026-09-30T00:51:43.827224+00:00  10%|█         | 19/189 [06:29<59:50, 21.12s/it]
+2026-09-30T00:51:43.827702+00:00                                                 
+2026-09-30T00:51:43.827762+00:00 
+2026-09-30T00:52:06.382091+00:00  10%|█         | 19/189 [06:29<59:50, 21.12s/it]
+2026-09-30T00:52:06.382583+00:00  11%|█         | 20/189 [06:52<1:00:42, 21.55s/it]
+2026-09-30T00:52:06.382842+00:00                                                   
+2026-09-30T00:52:06.382885+00:00 
+2026-09-30T00:52:26.600585+00:00  11%|█         | 20/189 [06:52<1:00:42, 21.55s/it]
+2026-09-30T00:52:26.601100+00:00  11%|█         | 21/189 [07:12<59:13, 21.15s/it]  
+2026-09-30T00:52:26.601193+00:00                                                 
+2026-09-30T00:52:26.601221+00:00 {'loss': '0.6931', 'grad_norm': '1.727', 'learning_rate': '5e-06', 'entropy': '1.085', 'num_tokens': '4812', 'logits/chosen': '-2.366', 'logits/rejected': '-2.161', 'mean_token_accuracy': '0.5728', 'rewards/chosen': '0', 'rewards/rejected': '0', 'rewards/accuracies': '0', 'rewards/margins': '0', 'logps/chosen': '-306.6', 'logps/rejected': '-309.6', 'epoch': '0.01587'}
+2026-09-30T00:52:26.601258+00:00 {'loss': '0.6892', 'grad_norm': 'nan', 'learning_rate': '5e-06', 'entropy': '1.186', 'num_tokens': '8202', 'logits/chosen': '-2.217', 'logits/rejected': '-1.903', 'mean_token_accuracy': '0.5752', 'rewards/chosen': '0.003218', 'rewards/rejected': '-0.004769', 'rewards/accuracies': '0.75', 'rewards/margins': '0.007986', 'logps/chosen': '-321.5', 'logps/rejected': '-327.8', 'epoch': '0.03175'}
+2026-09-30T00:52:26.601278+00:00 {'loss': '0.6926', 'grad_norm': '1.652', 'learning_rate': '5e-06', 'entropy': '0.9772', 'num_tokens': '1.141e+04', 'logits/chosen': '-2.175', 'logits/rejected': '-2.174', 'mean_token_accuracy': '0.558', 'rewards/chosen': '0.00662', 'rewards/rejected': '0.005429', 'rewards/accuracies': '0.5', 'rewards/margins': '0.00119', 'logps/chosen': '-339.1', 'logps/rejected': '-340.6', 'epoch': '0.04762'}
+2026-09-30T00:52:26.601297+00:00 {'loss': '0.6974', 'grad_norm': '1.512', 'learning_rate': '5e-06', 'entropy': '1.265', 'num_tokens': '1.436e+04', 'logits/chosen': '-2.022', 'logits/rejected': '-2.08', 'mean_token_accuracy': '0.5054', 'rewards/chosen': '-0.0007813', 'rewards/rejected': '0.00768', 'rewards/accuracies': '0.375', 'rewards/margins': '-0.008461', 'logps/chosen': '-275.6', 'logps/rejected': '-279.2', 'epoch': '0.06349'}
+2026-09-30T00:52:26.601316+00:00 {'loss': '0.691', 'grad_norm': '1.495', 'learning_rate': '5e-06', 'entropy': '1.223', 'num_tokens': '1.703e+04', 'logits/chosen': '-2.138', 'logits/rejected': '-2.001', 'mean_token_accuracy': '0.5421', 'rewards/chosen': '0.004002', 'rewards/rejected': '-0.0002714', 'rewards/accuracies': '0.75', 'rewards/margins': '0.004273', 'logps/chosen': '-265.6', 'logps/rejected': '-268.1', 'epoch': '0.07937'}
+2026-09-30T00:52:26.601333+00:00 {'loss': '0.6919', 'grad_norm': '1.651', 'learning_rate': '5e-06', 'entropy': '1.304', 'num_tokens': '2.001e+04', 'logits/chosen': '-2.066', 'logits/rejected': '-1.975', 'mean_token_accuracy': '0.5336', 'rewards/chosen': '0.005934', 'rewards/rejected': '0.003361', 'rewards/accuracies': '0.625', 'rewards/margins': '0.002573', 'logps/chosen': '-289', 'logps/rejected': '-292.9', 'epoch': '0.09524'}
+2026-09-30T00:52:26.601351+00:00 {'loss': '0.6878', 'grad_norm': '1.857', 'learning_rate': '5e-06', 'entropy': '1.165', 'num_tokens': '2.404e+04', 'logits/chosen': '-2.45', 'logits/rejected': '-2.146', 'mean_token_accuracy': '0.5361', 'rewards/chosen': '0.01013', 'rewards/rejected': '-0.0006565', 'rewards/accuracies': '0.75', 'rewards/margins': '0.01079', 'logps/chosen': '-318.5', 'logps/rejected': '-336.1', 'epoch': '0.1111'}
+2026-09-30T00:52:26.601368+00:00 {'loss': '0.6928', 'grad_norm': '1.647', 'learning_rate': '5e-06', 'entropy': '1.232', 'num_tokens': '2.855e+04', 'logits/chosen': '-2.226', 'logits/rejected': '-2.075', 'mean_token_accuracy': '0.543', 'rewards/chosen': '-0.0003696', 'rewards/rejected': '-0.001064', 'rewards/accuracies': '0.625', 'rewards/margins': '0.0006947', 'logps/chosen': '-376.6', 'logps/rejected': '-365.1', 'epoch': '0.127'}
+2026-09-30T00:52:26.601386+00:00 {'loss': '0.6893', 'grad_norm': '1.711', 'learning_rate': '5e-06', 'entropy': '1.262', 'num_tokens': '3.173e+04', 'logits/chosen': '-2.172', 'logits/rejected': '-2.01', 'mean_token_accuracy': '0.4986', 'rewards/chosen': '0.007852', 'rewards/rejected': '0.0001644', 'rewards/accuracies': '0.875', 'rewards/margins': '0.007688', 'logps/chosen': '-347.2', 'logps/rejected': '-320.5', 'epoch': '0.1429'}
+2026-09-30T00:52:26.601401+00:00 {'loss': '0.6917', 'grad_norm': '1.445', 'learning_rate': '5e-06', 'entropy': '1.393', 'num_tokens': '3.544e+04', 'logits/chosen': '-1.89', 'logits/rejected': '-1.807', 'mean_token_accuracy': '0.4787', 'rewards/chosen': '0.003609', 'rewards/rejected': '0.0006886', 'rewards/accuracies': '0.625', 'rewards/margins': '0.00292', 'logps/chosen': '-311.7', 'logps/rejected': '-307.6', 'epoch': '0.1587'}
+2026-09-30T00:52:26.601415+00:00 {'loss': '0.6911', 'grad_norm': '1.639', 'learning_rate': '5e-06', 'entropy': '1.208', 'num_tokens': '3.914e+04', 'logits/chosen': '-2.129', 'logits/rejected': '-2.04', 'mean_token_accuracy': '0.5204', 'rewards/chosen': '0.004444', 'rewards/rejected': '0.0002666', 'rewards/accuracies': '0.75', 'rewards/margins': '0.004177', 'logps/chosen': '-246.8', 'logps/rejected': '-259.5', 'epoch': '0.1746'}
+2026-09-30T00:52:26.601440+00:00 {'loss': '0.6885', 'grad_norm': '1.781', 'learning_rate': '5e-06', 'entropy': '1.378', 'num_tokens': '4.174e+04', 'logits/chosen': '-1.948', 'logits/rejected': '-1.854', 'mean_token_accuracy': '0.4609', 'rewards/chosen': '0.004645', 'rewards/rejected': '-0.004745', 'rewards/accuracies': '0.75', 'rewards/margins': '0.00939', 'logps/chosen': '-292.8', 'logps/rejected': '-269.3', 'epoch': '0.1905'}
+2026-09-30T00:52:26.601456+00:00 {'loss': '0.6924', 'grad_norm': '1.546', 'learning_rate': '5e-06', 'entropy': '1.239', 'num_tokens': '4.527e+04', 'logits/chosen': '-1.986', 'logits/rejected': '-1.971', 'mean_token_accuracy': '0.5026', 'rewards/chosen': '0.002815', 'rewards/rejected': '0.001383', 'rewards/accuracies': '0.5', 'rewards/margins': '0.001432', 'logps/chosen': '-305.8', 'logps/rejected': '-305', 'epoch': '0.2063'}
+2026-09-30T00:52:26.601470+00:00 {'loss': '0.6922', 'grad_norm': '1.75', 'learning_rate': '5e-06', 'entropy': '1.172', 'num_tokens': '4.826e+04', 'logits/chosen': '-2.201', 'logits/rejected': '-1.977', 'mean_token_accuracy': '0.5332', 'rewards/chosen': '0.002763', 'rewards/rejected': '0.000882', 'rewards/accuracies': '0.625', 'rewards/margins': '0.001881', 'logps/chosen': '-282.9', 'logps/rejected': '-285.1', 'epoch': '0.2222'}
+2026-09-30T00:52:26.601489+00:00 {'loss': '0.6886', 'grad_norm': '1.61', 'learning_rate': '5e-06', 'entropy': '1.324', 'num_tokens': '5.121e+04', 'logits/chosen': '-1.926', 'logits/rejected': '-1.975', 'mean_token_accuracy': '0.4989', 'rewards/chosen': '0.0106', 'rewards/rejected': '0.001527', 'rewards/accuracies': '0.75', 'rewards/margins': '0.009074', 'logps/chosen': '-339.1', 'logps/rejected': '-336.5', 'epoch': '0.2381'}
+2026-09-30T00:52:26.601504+00:00 {'loss': '0.6907', 'grad_norm': '1.59', 'learning_rate': '5e-06', 'entropy': '1.155', 'num_tokens': '5.488e+04', 'logits/chosen': '-2.112', 'logits/rejected': '-1.903', 'mean_token_accuracy': '0.5629', 'rewards/chosen': '0.006367', 'rewards/rejected': '0.001487', 'rewards/accuracies': '0.75', 'rewards/margins': '0.00488', 'logps/chosen': '-295.1', 'logps/rejected': '-294.3', 'epoch': '0.254'}
+2026-09-30T00:52:26.601529+00:00 {'loss': '0.6899', 'grad_norm': '1.616', 'learning_rate': '5e-06', 'entropy': '1.306', 'num_tokens': '5.742e+04', 'logits/chosen': '-2.006', 'logits/rejected': '-2.024', 'mean_token_accuracy': '0.4955', 'rewards/chosen': '0.007668', 'rewards/rejected': '0.001061', 'rewards/accuracies': '0.75', 'rewards/margins': '0.006607', 'logps/chosen': '-262', 'logps/rejected': '-262.7', 'epoch': '0.2698'}
+2026-09-30T00:52:26.601545+00:00 {'loss': '0.6842', 'grad_norm': '2.011', 'learning_rate': '5e-06', 'entropy': '1.043', 'num_tokens': '6.039e+04', 'logits/chosen': '-2.51', 'logits/rejected': '-2.234', 'mean_token_accuracy': '0.5457', 'rewards/chosen': '0.02355', 'rewards/rejected': '0.005496', 'rewards/accuracies': '0.875', 'rewards/margins': '0.01805', 'logps/chosen': '-281.1', 'logps/rejected': '-307.4', 'epoch': '0.2857'}
+2026-09-30T00:52:26.601565+00:00 {'loss': '0.6848', 'grad_norm': '1.868', 'learning_rate': '5e-06', 'entropy': '1.17', 'num_tokens': '6.428e+04', 'logits/chosen': '-2.279', 'logits/rejected': '-1.956', 'mean_token_accuracy': '0.5493', 'rewards/chosen': '0.01101', 'rewards/rejected': '-0.005766', 'rewards/accuracies': '0.75', 'rewards/margins': '0.01678', 'logps/chosen': '-298.6', 'logps/rejected': '-314.6', 'epoch': '0.3016'}
+2026-09-30T00:52:26.601580+00:00 {'loss': '0.6911', 'grad_norm': '1.374', 'learning_rate': '5e-06', 'entropy': '1.183', 'num_tokens': '6.797e+04', 'logits/chosen': '-2.17', 'logits/rejected': '-2.033', 'mean_token_accuracy': '0.5442', 'rewards/chosen': '0.009072', 'rewards/rejected': '0.004959', 'rewards/accuracies': '0.5', 'rewards/margins': '0.004112', 'logps/chosen': '-295.7', 'logps/rejected': '-291.2', 'epoch': '0.3175'}
+2026-09-30T00:52:26.601615+00:00 {'loss': '0.6853', 'grad_norm': '1.645', 'learning_rate': '5e-06', 'entropy': '1.104', 'num_tokens': '7.115e+04', 'logits/chosen': '-2.283', 'logits/rejected': '-2.141', 'mean_token_accuracy': '0.5377', 'rewards/chosen': '0.01688', 'rewards/rejected': '0.001051', 'rewards/accuracies': '0.75', 'rewards/margins': '0.01583', 'logps/chosen': '-288.4', 'logps/rejected': '-299.8', 'epoch': '0.3333'}
+2026-09-30T00:52:48.414844+00:00  11%|█         | 21/189 [07:12<59:13, 21.15s/it]
+2026-09-30T00:52:48.415279+00:00  12%|█▏        | 22/189 [07:34<59:25, 21.35s/it]
+2026-09-30T00:52:48.415323+00:00                                                 
+2026-09-30T00:52:48.415338+00:00 
+2026-09-30T00:53:11.508733+00:00  12%|█▏        | 22/189 [07:34<59:25, 21.35s/it]
+2026-09-30T00:53:11.509131+00:00  12%|█▏        | 23/189 [07:57<1:00:31, 21.87s/it]
+2026-09-30T00:53:11.509182+00:00                                                   
+2026-09-30T00:53:11.509197+00:00 
+2026-09-30T00:53:33.554016+00:00  12%|█▏        | 23/189 [07:57<1:00:31, 21.87s/it]
+2026-09-30T00:53:33.554500+00:00  13%|█▎        | 24/189 [08:19<1:00:17, 21.93s/it]
+2026-09-30T00:53:33.554820+00:00                                                   
+2026-09-30T00:53:33.554865+00:00 
+2026-09-30T00:53:55.391426+00:00  13%|█▎        | 24/189 [08:19<1:00:17, 21.93s/it]
+2026-09-30T00:53:55.391945+00:00  13%|█▎        | 25/189 [08:41<59:51, 21.90s/it]  
+2026-09-30T00:53:55.392177+00:00                                                 
+2026-09-30T00:53:55.392216+00:00 
+2026-09-30T00:54:17.649801+00:00  13%|█▎        | 25/189 [08:41<59:51, 21.90s/it]
+2026-09-30T00:54:17.649986+00:00  14%|█▍        | 26/189 [09:03<59:47, 22.01s/it]
+2026-09-30T00:54:17.650350+00:00                                                 
+2026-09-30T00:54:17.650392+00:00 
+2026-09-30T00:54:43.191351+00:00  14%|█▍        | 26/189 [09:03<59:47, 22.01s/it]
+2026-09-30T00:54:43.191910+00:00  14%|█▍        | 27/189 [09:29<1:02:16, 23.07s/it]
+2026-09-30T00:54:43.192704+00:00                                                   
+2026-09-30T00:54:43.192755+00:00 
+2026-09-30T00:55:02.629051+00:00  14%|█▍        | 27/189 [09:29<1:02:16, 23.07s/it]
+2026-09-30T00:55:02.629548+00:00  15%|█▍        | 28/189 [09:48<58:58, 21.98s/it]  
+2026-09-30T00:55:02.629809+00:00                                                 
+2026-09-30T00:55:02.629855+00:00 
+2026-09-30T00:55:21.974826+00:00  15%|█▍        | 28/189 [09:48<58:58, 21.98s/it]
+2026-09-30T00:55:21.975355+00:00  15%|█▌        | 29/189 [10:08<56:30, 21.19s/it]
+2026-09-30T00:55:21.975592+00:00                                                 
+2026-09-30T00:55:21.975640+00:00 
+2026-09-30T00:55:43.663662+00:00  15%|█▌        | 29/189 [10:08<56:30, 21.19s/it]
+2026-09-30T00:55:43.664173+00:00  16%|█▌        | 30/189 [10:29<56:32, 21.34s/it]
+2026-09-30T00:55:43.664330+00:00                                                 
+2026-09-30T00:55:43.664351+00:00 
+2026-09-30T00:56:07.164259+00:00  16%|█▌        | 30/189 [10:29<56:32, 21.34s/it]
+2026-09-30T00:56:07.164771+00:00  16%|█▋        | 31/189 [10:53<57:53, 21.99s/it]
+2026-09-30T00:56:07.164880+00:00                                                 
+2026-09-30T00:56:07.164916+00:00 
+2026-09-30T00:56:29.558143+00:00  16%|█▋        | 31/189 [10:53<57:53, 21.99s/it]
+2026-09-30T00:56:29.558733+00:00  17%|█▋        | 32/189 [11:15<57:51, 22.11s/it]
+2026-09-30T00:56:29.558984+00:00                                                 
+2026-09-30T00:56:29.559025+00:00 
+2026-09-30T00:56:50.687153+00:00  17%|█▋        | 32/189 [11:15<57:51, 22.11s/it]
+2026-09-30T00:56:50.687563+00:00  17%|█▋        | 33/189 [11:36<56:43, 21.82s/it]
+2026-09-30T00:56:50.687699+00:00                                                 
+2026-09-30T00:56:50.687729+00:00 
+2026-09-30T00:57:07.718861+00:00  17%|█▋        | 33/189 [11:36<56:43, 21.82s/it]
+2026-09-30T00:57:07.719278+00:00  18%|█▊        | 34/189 [11:53<52:38, 20.38s/it]
+2026-09-30T00:57:07.719394+00:00                                                 
+2026-09-30T00:57:07.719412+00:00 
+2026-09-30T00:57:28.932072+00:00  18%|█▊        | 34/189 [11:53<52:38, 20.38s/it]
+2026-09-30T00:57:28.932635+00:00  19%|█▊        | 35/189 [12:14<52:57, 20.63s/it]
+2026-09-30T00:57:28.932855+00:00                                                 
+2026-09-30T00:57:28.932890+00:00 
+2026-09-30T00:57:50.849147+00:00  19%|█▊        | 35/189 [12:14<52:57, 20.63s/it]
+2026-09-30T00:57:50.849685+00:00  19%|█▉        | 36/189 [12:36<53:35, 21.02s/it]
+2026-09-30T00:57:50.849915+00:00                                                 
+2026-09-30T00:57:50.849955+00:00 
+2026-09-30T00:58:12.639404+00:00  19%|█▉        | 36/189 [12:36<53:35, 21.02s/it]
+2026-09-30T00:58:12.639959+00:00  20%|█▉        | 37/189 [12:58<53:49, 21.25s/it]
+2026-09-30T00:58:12.640208+00:00                                                 
+2026-09-30T00:58:12.640248+00:00 
+2026-09-30T00:58:31.453550+00:00  20%|█▉        | 37/189 [12:58<53:49, 21.25s/it]
+2026-09-30T00:58:31.454079+00:00  20%|██        | 38/189 [13:17<51:38, 20.52s/it]
+2026-09-30T00:58:31.454319+00:00                                                 
+2026-09-30T00:58:31.454356+00:00 
+2026-09-30T00:58:50.274991+00:00  20%|██        | 38/189 [13:17<51:38, 20.52s/it]
+2026-09-30T00:58:50.275405+00:00  21%|██        | 39/189 [13:36<50:01, 20.01s/it]
+2026-09-30T00:58:50.275549+00:00                                                 
+2026-09-30T00:58:50.275570+00:00 
+2026-09-30T00:59:08.515124+00:00  21%|██        | 39/189 [13:36<50:01, 20.01s/it]
+2026-09-30T00:59:08.515601+00:00  21%|██        | 40/189 [13:54<48:22, 19.48s/it]
+2026-09-30T00:59:08.515849+00:00                                                 
+2026-09-30T00:59:08.515890+00:00 
+2026-09-30T00:59:32.848892+00:00  21%|██        | 40/189 [13:54<48:22, 19.48s/it]
+2026-09-30T00:59:32.849323+00:00  22%|██▏       | 41/189 [14:18<51:38, 20.94s/it]
+2026-09-30T00:59:32.849425+00:00                                                 
+2026-09-30T00:59:32.849447+00:00 
+2026-09-30T00:59:54.099385+00:00  22%|██▏       | 41/189 [14:18<51:38, 20.94s/it]
+2026-09-30T00:59:54.099846+00:00  22%|██▏       | 42/189 [14:40<51:31, 21.03s/it]
+2026-09-30T00:59:54.099916+00:00                                                 
+2026-09-30T00:59:54.099934+00:00 {'loss': '0.6817', 'grad_norm': '1.782', 'learning_rate': '5e-06', 'entropy': '1.09', 'num_tokens': '7.477e+04', 'logits/chosen': '-2.217', 'logits/rejected': '-2.081', 'mean_token_accuracy': '0.5097', 'rewards/chosen': '0.02571', 'rewards/rejected': '0.002508', 'rewards/accuracies': '0.875', 'rewards/margins': '0.0232', 'logps/chosen': '-310.7', 'logps/rejected': '-316.4', 'epoch': '0.3492'}
+2026-09-30T00:59:54.099949+00:00 {'loss': '0.6833', 'grad_norm': '1.647', 'learning_rate': '5e-06', 'entropy': '1.182', 'num_tokens': '7.864e+04', 'logits/chosen': '-2.145', 'logits/rejected': '-1.911', 'mean_token_accuracy': '0.5338', 'rewards/chosen': '0.01597', 'rewards/rejected': '-0.003907', 'rewards/accuracies': '1', 'rewards/margins': '0.01988', 'logps/chosen': '-306.7', 'logps/rejected': '-298.1', 'epoch': '0.3651'}
+2026-09-30T00:59:54.099962+00:00 {'loss': '0.6848', 'grad_norm': '1.577', 'learning_rate': '5e-06', 'entropy': '1.137', 'num_tokens': '8.209e+04', 'logits/chosen': '-2.338', 'logits/rejected': '-2.144', 'mean_token_accuracy': '0.5592', 'rewards/chosen': '0.02276', 'rewards/rejected': '0.005873', 'rewards/accuracies': '0.875', 'rewards/margins': '0.01688', 'logps/chosen': '-300.4', 'logps/rejected': '-288.1', 'epoch': '0.381'}
+2026-09-30T00:59:54.099975+00:00 {'loss': '0.6889', 'grad_norm': '1.85', 'learning_rate': '5e-06', 'entropy': '1.054', 'num_tokens': '8.552e+04', 'logits/chosen': '-2.434', 'logits/rejected': '-2.271', 'mean_token_accuracy': '0.5706', 'rewards/chosen': '0.03353', 'rewards/rejected': '0.02482', 'rewards/accuracies': '0.75', 'rewards/margins': '0.008706', 'logps/chosen': '-321.8', 'logps/rejected': '-309.4', 'epoch': '0.3968'}
+2026-09-30T00:59:54.100002+00:00 {'loss': '0.6849', 'grad_norm': '1.731', 'learning_rate': '5e-06', 'entropy': '1.135', 'num_tokens': '8.907e+04', 'logits/chosen': '-2.298', 'logits/rejected': '-2.081', 'mean_token_accuracy': '0.5366', 'rewards/chosen': '0.02744', 'rewards/rejected': '0.01081', 'rewards/accuracies': '1', 'rewards/margins': '0.01663', 'logps/chosen': '-348.8', 'logps/rejected': '-350.8', 'epoch': '0.4127'}
+2026-09-30T00:59:54.100013+00:00 {'loss': '0.6789', 'grad_norm': '1.968', 'learning_rate': '5e-06', 'entropy': '1.094', 'num_tokens': '9.364e+04', 'logits/chosen': '-2.4', 'logits/rejected': '-2.133', 'mean_token_accuracy': '0.5796', 'rewards/chosen': '0.03641', 'rewards/rejected': '0.007599', 'rewards/accuracies': '0.75', 'rewards/margins': '0.02881', 'logps/chosen': '-392.5', 'logps/rejected': '-413.6', 'epoch': '0.4286'}
+2026-09-30T00:59:54.100024+00:00 {'loss': '0.6771', 'grad_norm': '1.821', 'learning_rate': '5e-06', 'entropy': '1.206', 'num_tokens': '9.657e+04', 'logits/chosen': '-2.195', 'logits/rejected': '-2.084', 'mean_token_accuracy': '0.5171', 'rewards/chosen': '0.03596', 'rewards/rejected': '0.003619', 'rewards/accuracies': '1', 'rewards/margins': '0.03234', 'logps/chosen': '-303.3', 'logps/rejected': '-297.6', 'epoch': '0.4444'}
+2026-09-30T00:59:54.100034+00:00 {'loss': '0.6819', 'grad_norm': '1.669', 'learning_rate': '5e-06', 'entropy': '1.172', 'num_tokens': '9.947e+04', 'logits/chosen': '-2.209', 'logits/rejected': '-1.928', 'mean_token_accuracy': '0.5318', 'rewards/chosen': '0.02625', 'rewards/rejected': '0.003545', 'rewards/accuracies': '1', 'rewards/margins': '0.0227', 'logps/chosen': '-254.1', 'logps/rejected': '-281.1', 'epoch': '0.4603'}
+2026-09-30T00:59:54.100044+00:00 {'loss': '0.6813', 'grad_norm': '1.796', 'learning_rate': '5e-06', 'entropy': '1.149', 'num_tokens': '1.029e+05', 'logits/chosen': '-2.291', 'logits/rejected': '-2.077', 'mean_token_accuracy': '0.5319', 'rewards/chosen': '0.03268', 'rewards/rejected': '0.008709', 'rewards/accuracies': '0.875', 'rewards/margins': '0.02397', 'logps/chosen': '-275.5', 'logps/rejected': '-282.5', 'epoch': '0.4762'}
+2026-09-30T00:59:54.100054+00:00 {'loss': '0.6854', 'grad_norm': '1.79', 'learning_rate': '5e-06', 'entropy': '1.183', 'num_tokens': '1.065e+05', 'logits/chosen': '-1.901', 'logits/rejected': '-1.788', 'mean_token_accuracy': '0.5251', 'rewards/chosen': '0.03493', 'rewards/rejected': '0.01941', 'rewards/accuracies': '0.875', 'rewards/margins': '0.01552', 'logps/chosen': '-345.3', 'logps/rejected': '-340.4', 'epoch': '0.4921'}
+2026-09-30T00:59:54.100068+00:00 {'loss': '0.6761', 'grad_norm': '1.809', 'learning_rate': '5e-06', 'entropy': '1.073', 'num_tokens': '1.101e+05', 'logits/chosen': '-2.302', 'logits/rejected': '-2.105', 'mean_token_accuracy': '0.5609', 'rewards/chosen': '0.04046', 'rewards/rejected': '0.005954', 'rewards/accuracies': '1', 'rewards/margins': '0.0345', 'logps/chosen': '-323.9', 'logps/rejected': '-325.3', 'epoch': '0.5079'}
+2026-09-30T00:59:54.100081+00:00 {'loss': '0.6701', 'grad_norm': '2.026', 'learning_rate': '5e-06', 'entropy': '1.217', 'num_tokens': '1.132e+05', 'logits/chosen': '-2.132', 'logits/rejected': '-2.015', 'mean_token_accuracy': '0.5406', 'rewards/chosen': '0.05976', 'rewards/rejected': '0.01301', 'rewards/accuracies': '1', 'rewards/margins': '0.04675', 'logps/chosen': '-346.1', 'logps/rejected': '-327.2', 'epoch': '0.5238'}
+2026-09-30T00:59:54.100091+00:00 {'loss': '0.6692', 'grad_norm': 'nan', 'learning_rate': '5e-06', 'entropy': '1.135', 'num_tokens': '1.155e+05', 'logits/chosen': '-2.092', 'logits/rejected': '-2.015', 'mean_token_accuracy': '0.5608', 'rewards/chosen': '0.06451', 'rewards/rejected': '0.01571', 'rewards/accuracies': '1', 'rewards/margins': '0.0488', 'logps/chosen': '-243.6', 'logps/rejected': '-260.8', 'epoch': '0.5397'}
+2026-09-30T00:59:54.100101+00:00 {'loss': '0.684', 'grad_norm': '1.639', 'learning_rate': '5e-06', 'entropy': '1.165', 'num_tokens': '1.187e+05', 'logits/chosen': '-2.257', 'logits/rejected': '-1.996', 'mean_token_accuracy': '0.5394', 'rewards/chosen': '0.03082', 'rewards/rejected': '0.0123', 'rewards/accuracies': '0.875', 'rewards/margins': '0.01852', 'logps/chosen': '-273', 'logps/rejected': '-281.4', 'epoch': '0.5556'}
+2026-09-30T00:59:54.100118+00:00 {'loss': '0.6797', 'grad_norm': '1.781', 'learning_rate': '5e-06', 'entropy': '1.109', 'num_tokens': '1.221e+05', 'logits/chosen': '-2.019', 'logits/rejected': '-2.082', 'mean_token_accuracy': '0.5474', 'rewards/chosen': '0.04299', 'rewards/rejected': '0.01577', 'rewards/accuracies': '0.875', 'rewards/margins': '0.02722', 'logps/chosen': '-322.6', 'logps/rejected': '-316.9', 'epoch': '0.5714'}
+2026-09-30T00:59:54.100128+00:00 {'loss': '0.6783', 'grad_norm': '1.867', 'learning_rate': '5e-06', 'entropy': '1.166', 'num_tokens': '1.256e+05', 'logits/chosen': '-2.067', 'logits/rejected': '-2.17', 'mean_token_accuracy': '0.5038', 'rewards/chosen': '0.0474', 'rewards/rejected': '0.01732', 'rewards/accuracies': '0.875', 'rewards/margins': '0.03008', 'logps/chosen': '-322', 'logps/rejected': '-294.8', 'epoch': '0.5873'}
+2026-09-30T00:59:54.100138+00:00 {'loss': '0.6676', 'grad_norm': '1.843', 'learning_rate': '5e-06', 'entropy': '1.208', 'num_tokens': '1.281e+05', 'logits/chosen': '-2.071', 'logits/rejected': '-1.973', 'mean_token_accuracy': '0.4886', 'rewards/chosen': '0.07201', 'rewards/rejected': '0.01988', 'rewards/accuracies': '1', 'rewards/margins': '0.05213', 'logps/chosen': '-304.9', 'logps/rejected': '-280', 'epoch': '0.6032'}
+2026-09-30T00:59:54.100147+00:00 {'loss': '0.6818', 'grad_norm': '1.64', 'learning_rate': '5e-06', 'entropy': '1.085', 'num_tokens': '1.307e+05', 'logits/chosen': '-2.101', 'logits/rejected': '-2.009', 'mean_token_accuracy': '0.5871', 'rewards/chosen': '0.04207', 'rewards/rejected': '0.01917', 'rewards/accuracies': '0.875', 'rewards/margins': '0.0229', 'logps/chosen': '-253.8', 'logps/rejected': '-271', 'epoch': '0.619'}
+2026-09-30T00:59:54.100162+00:00 {'loss': '0.6703', 'grad_norm': '1.81', 'learning_rate': '5e-06', 'entropy': '1.279', 'num_tokens': '1.332e+05', 'logits/chosen': '-2.07', 'logits/rejected': '-1.973', 'mean_token_accuracy': '0.4999', 'rewards/chosen': '0.05118', 'rewards/rejected': '0.004682', 'rewards/accuracies': '0.875', 'rewards/margins': '0.0465', 'logps/chosen': '-265', 'logps/rejected': '-260.8', 'epoch': '0.6349'}
+2026-09-30T00:59:54.100171+00:00 {'loss': '0.6725', 'grad_norm': '2.123', 'learning_rate': '5e-06', 'entropy': '1.101', 'num_tokens': '1.373e+05', 'logits/chosen': '-2.158', 'logits/rejected': '-2.188', 'mean_token_accuracy': '0.5514', 'rewards/chosen': '0.07022', 'rewards/rejected': '0.02831', 'rewards/accuracies': '1', 'rewards/margins': '0.04191', 'logps/chosen': '-317', 'logps/rejected': '-332.1', 'epoch': '0.6508'}
+2026-09-30T00:59:54.100191+00:00 {'loss': '0.6742', 'grad_norm': '1.67', 'learning_rate': '5e-06', 'entropy': '1.096', 'num_tokens': '1.405e+05', 'logits/chosen': '-2.208', 'logits/rejected': '-2.1', 'mean_token_accuracy': '0.5275', 'rewards/chosen': '0.06506', 'rewards/rejected': '0.02642', 'rewards/accuracies': '0.875', 'rewards/margins': '0.03864', 'logps/chosen': '-267.3', 'logps/rejected': '-256.6', 'epoch': '0.6667'}
+2026-09-30T01:00:14.812855+00:00  22%|██▏       | 42/189 [14:40<51:31, 21.03s/it]
+2026-09-30T01:00:14.813314+00:00  23%|██▎       | 43/189 [15:00<50:56, 20.93s/it]
+2026-09-30T01:00:14.813476+00:00                                                 
+2026-09-30T01:00:14.813495+00:00 
+2026-09-30T01:00:38.408334+00:00  23%|██▎       | 43/189 [15:00<50:56, 20.93s/it]
+2026-09-30T01:00:38.408873+00:00  23%|██▎       | 44/189 [15:24<52:31, 21.73s/it]
+2026-09-30T01:00:38.409047+00:00                                                 
+2026-09-30T01:00:38.409072+00:00 
+2026-09-30T01:00:58.458640+00:00  23%|██▎       | 44/189 [15:24<52:31, 21.73s/it]
+2026-09-30T01:00:58.459164+00:00  24%|██▍       | 45/189 [15:44<50:56, 21.23s/it]
+2026-09-30T01:00:58.459320+00:00                                                 
+2026-09-30T01:00:58.459343+00:00 
+2026-09-30T01:01:19.390395+00:00  24%|██▍       | 45/189 [15:44<50:56, 21.23s/it]
+2026-09-30T01:01:19.390869+00:00  24%|██▍       | 46/189 [16:05<50:22, 21.14s/it]
+2026-09-30T01:01:19.390922+00:00                                                 
+2026-09-30T01:01:19.390937+00:00 
+2026-09-30T01:01:39.680076+00:00  24%|██▍       | 46/189 [16:05<50:22, 21.14s/it]
+2026-09-30T01:01:39.680550+00:00  25%|██▍       | 47/189 [16:25<49:25, 20.88s/it]
+2026-09-30T01:01:39.680825+00:00                                                 
+2026-09-30T01:01:39.680868+00:00 
+2026-09-30T01:02:00.425956+00:00  25%|██▍       | 47/189 [16:25<49:25, 20.88s/it]
+2026-09-30T01:02:00.426383+00:00  25%|██▌       | 48/189 [16:46<48:58, 20.84s/it]
+2026-09-30T01:02:00.426561+00:00                                                 
+2026-09-30T01:02:00.426581+00:00 
+2026-09-30T01:02:20.619293+00:00  25%|██▌       | 48/189 [16:46<48:58, 20.84s/it]
+2026-09-30T01:02:20.619786+00:00  26%|██▌       | 49/189 [17:06<48:10, 20.65s/it]
+2026-09-30T01:02:20.619969+00:00                                                 
+2026-09-30T01:02:20.619991+00:00 
+2026-09-30T01:02:40.094179+00:00  26%|██▌       | 49/189 [17:06<48:10, 20.65s/it]
+2026-09-30T01:02:40.094706+00:00  26%|██▋       | 50/189 [17:26<47:01, 20.30s/it]
+2026-09-30T01:02:40.094960+00:00                                                 
+2026-09-30T01:02:40.095001+00:00 
+2026-09-30T01:03:00.266285+00:00  26%|██▋       | 50/189 [17:26<47:01, 20.30s/it]
+2026-09-30T01:03:00.266793+00:00  27%|██▋       | 51/189 [17:46<46:35, 20.26s/it]
+2026-09-30T01:03:00.267019+00:00                                                 
+2026-09-30T01:03:00.267062+00:00 
+2026-09-30T01:03:18.741135+00:00  27%|██▋       | 51/189 [17:46<46:35, 20.26s/it]
+2026-09-30T01:03:18.741726+00:00  28%|██▊       | 52/189 [18:04<45:02, 19.72s/it]
+2026-09-30T01:03:18.742000+00:00                                                 
+2026-09-30T01:03:18.742047+00:00 
+2026-09-30T01:03:36.748172+00:00  28%|██▊       | 52/189 [18:04<45:02, 19.72s/it]
+2026-09-30T01:03:36.748607+00:00  28%|██▊       | 53/189 [18:22<43:32, 19.21s/it]
+2026-09-30T01:03:36.748845+00:00                                                 
+2026-09-30T01:03:36.748870+00:00 
+2026-09-30T01:03:57.067868+00:00  28%|██▊       | 53/189 [18:22<43:32, 19.21s/it]
+2026-09-30T01:03:57.068463+00:00  29%|██▊       | 54/189 [18:43<43:58, 19.54s/it]
+2026-09-30T01:03:57.068720+00:00                                                 
+2026-09-30T01:03:57.068768+00:00 
+2026-09-30T01:04:20.770692+00:00  29%|██▊       | 54/189 [18:43<43:58, 19.54s/it]
+2026-09-30T01:04:20.771205+00:00  29%|██▉       | 55/189 [19:06<46:25, 20.79s/it]
+2026-09-30T01:04:20.771450+00:00                                                 
+2026-09-30T01:04:20.771491+00:00 
+2026-09-30T01:04:40.210947+00:00  29%|██▉       | 55/189 [19:06<46:25, 20.79s/it]
+2026-09-30T01:04:40.211386+00:00  30%|██▉       | 56/189 [19:26<45:11, 20.39s/it]
+2026-09-30T01:04:40.211526+00:00                                                 
+2026-09-30T01:04:40.211548+00:00 
+2026-09-30T01:04:59.301578+00:00  30%|██▉       | 56/189 [19:26<45:11, 20.39s/it]
+2026-09-30T01:04:59.302075+00:00  30%|███       | 57/189 [19:45<43:59, 20.00s/it]
+2026-09-30T01:04:59.302253+00:00                                                 
+2026-09-30T01:04:59.302303+00:00 
+2026-09-30T01:05:22.639869+00:00  30%|███       | 57/189 [19:45<43:59, 20.00s/it]
+2026-09-30T01:05:22.640411+00:00  31%|███       | 58/189 [20:08<45:50, 21.00s/it]
+2026-09-30T01:05:22.640574+00:00                                                 
+2026-09-30T01:05:22.640610+00:00 
+2026-09-30T01:05:42.364222+00:00  31%|███       | 58/189 [20:08<45:50, 21.00s/it]
+2026-09-30T01:05:42.364768+00:00  31%|███       | 59/189 [20:28<44:40, 20.62s/it]
+2026-09-30T01:05:42.365017+00:00                                                 
+2026-09-30T01:05:42.365061+00:00 
+2026-09-30T01:06:03.599775+00:00  31%|███       | 59/189 [20:28<44:40, 20.62s/it]
+2026-09-30T01:06:03.600361+00:00  32%|███▏      | 60/189 [20:49<44:43, 20.80s/it]
+2026-09-30T01:06:03.600630+00:00                                                 
+2026-09-30T01:06:03.600696+00:00 
+2026-09-30T01:06:24.164461+00:00  32%|███▏      | 60/189 [20:49<44:43, 20.80s/it]
+2026-09-30T01:06:24.164986+00:00  32%|███▏      | 61/189 [21:10<44:13, 20.73s/it]
+2026-09-30T01:06:24.165159+00:00                                                 
+2026-09-30T01:06:24.165183+00:00 
+2026-09-30T01:06:45.282824+00:00  32%|███▏      | 61/189 [21:10<44:13, 20.73s/it]
+2026-09-30T01:06:45.283256+00:00  33%|███▎      | 62/189 [21:31<44:07, 20.85s/it]
+2026-09-30T01:06:45.283366+00:00                                                 
+2026-09-30T01:06:45.283385+00:00 
+2026-09-30T01:07:07.813114+00:00  33%|███▎      | 62/189 [21:31<44:07, 20.85s/it]
+2026-09-30T01:07:07.813565+00:00  33%|███▎      | 63/189 [21:53<44:50, 21.35s/it]
+2026-09-30T01:07:07.813642+00:00                                                 
+2026-09-30T01:07:07.813704+00:00 {'loss': '0.6742', 'grad_norm': '1.692', 'learning_rate': '5e-06', 'entropy': '1.161', 'num_tokens': '1.438e+05', 'logits/chosen': '-2.371', 'logits/rejected': '-2.214', 'mean_token_accuracy': '0.5222', 'rewards/chosen': '0.05046', 'rewards/rejected': '0.01192', 'rewards/accuracies': '0.875', 'rewards/margins': '0.03854', 'logps/chosen': '-224', 'logps/rejected': '-248.9', 'epoch': '0.6825'}
+2026-09-30T01:07:07.813729+00:00 {'loss': '0.6723', 'grad_norm': '1.989', 'learning_rate': '5e-06', 'entropy': '1.096', 'num_tokens': '1.479e+05', 'logits/chosen': '-2.028', 'logits/rejected': '-1.887', 'mean_token_accuracy': '0.5478', 'rewards/chosen': '0.07262', 'rewards/rejected': '0.03011', 'rewards/accuracies': '0.875', 'rewards/margins': '0.0425', 'logps/chosen': '-332.2', 'logps/rejected': '-320.4', 'epoch': '0.6984'}
+2026-09-30T01:07:07.813742+00:00 {'loss': '0.6642', 'grad_norm': '1.855', 'learning_rate': '5e-06', 'entropy': '1.136', 'num_tokens': '1.51e+05', 'logits/chosen': '-2.098', 'logits/rejected': '-2.021', 'mean_token_accuracy': '0.5247', 'rewards/chosen': '0.06465', 'rewards/rejected': '0.005716', 'rewards/accuracies': '1', 'rewards/margins': '0.05894', 'logps/chosen': '-284.3', 'logps/rejected': '-283.3', 'epoch': '0.7143'}
+2026-09-30T01:07:07.813755+00:00 {'loss': '0.6696', 'grad_norm': '1.816', 'learning_rate': '5e-06', 'entropy': '1.167', 'num_tokens': '1.541e+05', 'logits/chosen': '-2.098', 'logits/rejected': '-1.899', 'mean_token_accuracy': '0.5539', 'rewards/chosen': '0.06442', 'rewards/rejected': '0.01661', 'rewards/accuracies': '1', 'rewards/margins': '0.0478', 'logps/chosen': '-318.6', 'logps/rejected': '-336.4', 'epoch': '0.7302'}
+2026-09-30T01:07:07.813768+00:00 {'loss': '0.6566', 'grad_norm': '2.16', 'learning_rate': '5e-06', 'entropy': '1.205', 'num_tokens': '1.572e+05', 'logits/chosen': '-2.156', 'logits/rejected': '-2.117', 'mean_token_accuracy': '0.538', 'rewards/chosen': '0.09774', 'rewards/rejected': '0.02277', 'rewards/accuracies': '1', 'rewards/margins': '0.07497', 'logps/chosen': '-359.7', 'logps/rejected': '-346.7', 'epoch': '0.746'}
+2026-09-30T01:07:07.813778+00:00 {'loss': '0.666', 'grad_norm': '1.71', 'learning_rate': '5e-06', 'entropy': '1.125', 'num_tokens': '1.603e+05', 'logits/chosen': '-2.153', 'logits/rejected': '-1.941', 'mean_token_accuracy': '0.5419', 'rewards/chosen': '0.08382', 'rewards/rejected': '0.02866', 'rewards/accuracies': '1', 'rewards/margins': '0.05515', 'logps/chosen': '-323.8', 'logps/rejected': '-316.5', 'epoch': '0.7619'}
+2026-09-30T01:07:07.813790+00:00 {'loss': '0.6741', 'grad_norm': '1.713', 'learning_rate': '5e-06', 'entropy': '1.127', 'num_tokens': '1.632e+05', 'logits/chosen': '-2.055', 'logits/rejected': '-1.927', 'mean_token_accuracy': '0.549', 'rewards/chosen': '0.06405', 'rewards/rejected': '0.02532', 'rewards/accuracies': '1', 'rewards/margins': '0.03874', 'logps/chosen': '-283.8', 'logps/rejected': '-293.3', 'epoch': '0.7778'}
+2026-09-30T01:07:07.813800+00:00 {'loss': '0.6687', 'grad_norm': '1.8', 'learning_rate': '5e-06', 'entropy': '1.196', 'num_tokens': '1.661e+05', 'logits/chosen': '-2.086', 'logits/rejected': '-2.028', 'mean_token_accuracy': '0.5293', 'rewards/chosen': '0.07817', 'rewards/rejected': '0.02814', 'rewards/accuracies': '0.875', 'rewards/margins': '0.05003', 'logps/chosen': '-312.1', 'logps/rejected': '-317.4', 'epoch': '0.7937'}
+2026-09-30T01:07:07.813820+00:00 {'loss': '0.6679', 'grad_norm': '1.989', 'learning_rate': '5e-06', 'entropy': '1.216', 'num_tokens': '1.692e+05', 'logits/chosen': '-2.118', 'logits/rejected': '-2.085', 'mean_token_accuracy': '0.531', 'rewards/chosen': '0.08882', 'rewards/rejected': '0.03744', 'rewards/accuracies': '1', 'rewards/margins': '0.05138', 'logps/chosen': '-337.7', 'logps/rejected': '-330.1', 'epoch': '0.8095'}
+2026-09-30T01:07:07.813830+00:00 {'loss': '0.6726', 'grad_norm': '1.847', 'learning_rate': '5e-06', 'entropy': '1.087', 'num_tokens': '1.718e+05', 'logits/chosen': '-2.28', 'logits/rejected': '-2.097', 'mean_token_accuracy': '0.5555', 'rewards/chosen': '0.09322', 'rewards/rejected': '0.05147', 'rewards/accuracies': '0.875', 'rewards/margins': '0.04174', 'logps/chosen': '-263.5', 'logps/rejected': '-288.9', 'epoch': '0.8254'}
+2026-09-30T01:07:07.813839+00:00 {'loss': '0.666', 'grad_norm': '1.719', 'learning_rate': '5e-06', 'entropy': '1.101', 'num_tokens': '1.742e+05', 'logits/chosen': '-2.148', 'logits/rejected': '-2.008', 'mean_token_accuracy': '0.4982', 'rewards/chosen': '0.07442', 'rewards/rejected': '0.01883', 'rewards/accuracies': '0.875', 'rewards/margins': '0.05559', 'logps/chosen': '-247.1', 'logps/rejected': '-253.6', 'epoch': '0.8413'}
+2026-09-30T01:07:07.813851+00:00 {'loss': '0.6642', 'grad_norm': '1.732', 'learning_rate': '5e-06', 'entropy': '1.061', 'num_tokens': '1.772e+05', 'logits/chosen': '-2.266', 'logits/rejected': '-2.134', 'mean_token_accuracy': '0.5765', 'rewards/chosen': '0.0909', 'rewards/rejected': '0.0316', 'rewards/accuracies': '1', 'rewards/margins': '0.05929', 'logps/chosen': '-277.4', 'logps/rejected': '-280.6', 'epoch': '0.8571'}
+2026-09-30T01:07:07.813860+00:00 {'loss': '0.6725', 'grad_norm': '1.73', 'learning_rate': '5e-06', 'entropy': '1.094', 'num_tokens': '1.812e+05', 'logits/chosen': '-2.199', 'logits/rejected': '-2.195', 'mean_token_accuracy': '0.5475', 'rewards/chosen': '0.09731', 'rewards/rejected': '0.05489', 'rewards/accuracies': '0.75', 'rewards/margins': '0.04241', 'logps/chosen': '-282.5', 'logps/rejected': '-282.5', 'epoch': '0.873'}
+2026-09-30T01:07:07.813870+00:00 {'loss': '0.6468', 'grad_norm': '1.982', 'learning_rate': '5e-06', 'entropy': '1.039', 'num_tokens': '1.842e+05', 'logits/chosen': '-2.356', 'logits/rejected': '-2.089', 'mean_token_accuracy': '0.5903', 'rewards/chosen': '0.1199', 'rewards/rejected': '0.02325', 'rewards/accuracies': '1', 'rewards/margins': '0.09668', 'logps/chosen': '-280.3', 'logps/rejected': '-284', 'epoch': '0.8889'}
+2026-09-30T01:07:07.813883+00:00 {'loss': '0.6507', 'grad_norm': '1.764', 'learning_rate': '5e-06', 'entropy': '1.113', 'num_tokens': '1.87e+05', 'logits/chosen': '-2.127', 'logits/rejected': '-1.999', 'mean_token_accuracy': '0.5279', 'rewards/chosen': '0.1273', 'rewards/rejected': '0.0397', 'rewards/accuracies': '0.875', 'rewards/margins': '0.08764', 'logps/chosen': '-255.1', 'logps/rejected': '-257.3', 'epoch': '0.9048'}
+2026-09-30T01:07:07.813892+00:00 {'loss': '0.6749', 'grad_norm': '1.838', 'learning_rate': '5e-06', 'entropy': '1.049', 'num_tokens': '1.908e+05', 'logits/chosen': '-2.22', 'logits/rejected': '-2.362', 'mean_token_accuracy': '0.5568', 'rewards/chosen': '0.1279', 'rewards/rejected': '0.0907', 'rewards/accuracies': '0.875', 'rewards/margins': '0.0372', 'logps/chosen': '-293.3', 'logps/rejected': '-302', 'epoch': '0.9206'}
+2026-09-30T01:07:07.813901+00:00 {'loss': '0.6564', 'grad_norm': '2.097', 'learning_rate': '5e-06', 'entropy': '1.152', 'num_tokens': '1.937e+05', 'logits/chosen': '-1.972', 'logits/rejected': '-2', 'mean_token_accuracy': '0.5383', 'rewards/chosen': '0.1068', 'rewards/rejected': '0.03092', 'rewards/accuracies': '0.875', 'rewards/margins': '0.07583', 'logps/chosen': '-277.2', 'logps/rejected': '-286.6', 'epoch': '0.9365'}
+2026-09-30T01:07:07.813913+00:00 {'loss': '0.6428', 'grad_norm': '2.07', 'learning_rate': '5e-06', 'entropy': '1.102', 'num_tokens': '1.971e+05', 'logits/chosen': '-2.497', 'logits/rejected': '-2.093', 'mean_token_accuracy': '0.5468', 'rewards/chosen': '0.1498', 'rewards/rejected': '0.04588', 'rewards/accuracies': '1', 'rewards/margins': '0.1039', 'logps/chosen': '-265.8', 'logps/rejected': '-295.1', 'epoch': '0.9524'}
+2026-09-30T01:07:07.813926+00:00 {'loss': '0.6651', 'grad_norm': '1.693', 'learning_rate': '5e-06', 'entropy': '1.068', 'num_tokens': '2.002e+05', 'logits/chosen': '-2.018', 'logits/rejected': '-2.035', 'mean_token_accuracy': '0.5295', 'rewards/chosen': '0.09784', 'rewards/rejected': '0.04062', 'rewards/accuracies': '1', 'rewards/margins': '0.05722', 'logps/chosen': '-309', 'logps/rejected': '-304.3', 'epoch': '0.9683'}
+2026-09-30T01:07:07.813935+00:00 {'loss': '0.6541', 'grad_norm': '1.891', 'learning_rate': '5e-06', 'entropy': '1.157', 'num_tokens': '2.036e+05', 'logits/chosen': '-2.145', 'logits/rejected': '-1.944', 'mean_token_accuracy': '0.5378', 'rewards/chosen': '0.1248', 'rewards/rejected': '0.04467', 'rewards/accuracies': '1', 'rewards/margins': '0.08009', 'logps/chosen': '-299.2', 'logps/rejected': '-296.7', 'epoch': '0.9841'}
+2026-09-30T01:07:07.813954+00:00 {'loss': '0.6606', 'grad_norm': '1.963', 'learning_rate': '5e-06', 'entropy': '1.197', 'num_tokens': '2.072e+05', 'logits/chosen': '-2.235', 'logits/rejected': '-2.122', 'mean_token_accuracy': '0.5477', 'rewards/chosen': '0.1254', 'rewards/rejected': '0.05879', 'rewards/accuracies': '0.875', 'rewards/margins': '0.06658', 'logps/chosen': '-399.3', 'logps/rejected': '-390.1', 'epoch': '1'}
+2026-09-30T01:07:28.294804+00:00  33%|███▎      | 63/189 [21:53<44:50, 21.35s/it]
+2026-09-30T01:07:28.295259+00:00  34%|███▍      | 64/189 [22:14<43:56, 21.09s/it]
+2026-09-30T01:07:28.295333+00:00                                                 
+2026-09-30T01:07:28.295353+00:00 
+2026-09-30T01:07:51.453243+00:00  34%|███▍      | 64/189 [22:14<43:56, 21.09s/it]
+2026-09-30T01:07:51.453850+00:00  34%|███▍      | 65/189 [22:37<44:52, 21.71s/it]
+2026-09-30T01:07:51.454056+00:00                                                 
+2026-09-30T01:07:51.454110+00:00 
+2026-09-30T01:08:11.746135+00:00  34%|███▍      | 65/189 [22:37<44:52, 21.71s/it]
+2026-09-30T01:08:11.746631+00:00  35%|███▍      | 66/189 [22:57<43:38, 21.29s/it]
+2026-09-30T01:08:11.746883+00:00                                                 
+2026-09-30T01:08:11.746932+00:00 
+2026-09-30T01:08:31.665674+00:00  35%|███▍      | 66/189 [22:57<43:38, 21.29s/it]
+2026-09-30T01:08:31.666104+00:00  35%|███▌      | 67/189 [23:17<42:26, 20.88s/it]
+2026-09-30T01:08:31.666272+00:00                                                 
+2026-09-30T01:08:31.666291+00:00 
+2026-09-30T01:08:54.231761+00:00  35%|███▌      | 67/189 [23:17<42:26, 20.88s/it]
+2026-09-30T01:08:54.232274+00:00  36%|███▌      | 68/189 [23:40<43:07, 21.38s/it]
+2026-09-30T01:08:54.232514+00:00                                                 
+2026-09-30T01:08:54.232556+00:00 
+2026-09-30T01:09:18.470892+00:00  36%|███▌      | 68/189 [23:40<43:07, 21.38s/it]
+2026-09-30T01:09:18.471381+00:00  37%|███▋      | 69/189 [24:04<44:28, 22.24s/it]
+2026-09-30T01:09:18.471609+00:00                                                 
+2026-09-30T01:09:18.471668+00:00 
+2026-09-30T01:09:40.844356+00:00  37%|███▋      | 69/189 [24:04<44:28, 22.24s/it]
+2026-09-30T01:09:40.844920+00:00  37%|███▋      | 70/189 [24:26<44:11, 22.28s/it]
+2026-09-30T01:09:40.845167+00:00                                                 
+2026-09-30T01:09:40.845207+00:00 
+2026-09-30T01:10:00.384417+00:00  37%|███▋      | 70/189 [24:26<44:11, 22.28s/it]
+2026-09-30T01:10:00.384975+00:00  38%|███▊      | 71/189 [24:46<42:12, 21.46s/it]
+2026-09-30T01:10:00.385187+00:00                                                 
+2026-09-30T01:10:00.385223+00:00 
+2026-09-30T01:10:20.178260+00:00  38%|███▊      | 71/189 [24:46<42:12, 21.46s/it]
+2026-09-30T01:10:20.178837+00:00  38%|███▊      | 72/189 [25:06<40:52, 20.96s/it]
+2026-09-30T01:10:20.179099+00:00                                                 
+2026-09-30T01:10:20.179144+00:00 
+2026-09-30T01:10:37.201761+00:00  38%|███▊      | 72/189 [25:06<40:52, 20.96s/it]
+2026-09-30T01:10:37.202348+00:00  39%|███▊      | 73/189 [25:23<38:14, 19.78s/it]
+2026-09-30T01:10:37.202508+00:00                                                 
+2026-09-30T01:10:37.202548+00:00 
+2026-09-30T01:10:59.148364+00:00  39%|███▊      | 73/189 [25:23<38:14, 19.78s/it]
+2026-09-30T01:10:59.148911+00:00  39%|███▉      | 74/189 [25:45<39:09, 20.43s/it]
+2026-09-30T01:10:59.149162+00:00                                                 
+2026-09-30T01:10:59.149202+00:00 
+2026-09-30T01:11:17.869890+00:00  39%|███▉      | 74/189 [25:45<39:09, 20.43s/it]
+2026-09-30T01:11:17.870406+00:00  40%|███▉      | 75/189 [26:03<37:50, 19.92s/it]
+2026-09-30T01:11:17.870678+00:00                                                 
+2026-09-30T01:11:17.870724+00:00 
+2026-09-30T01:11:39.356888+00:00  40%|███▉      | 75/189 [26:03<37:50, 19.92s/it]
+2026-09-30T01:11:39.357382+00:00  40%|████      | 76/189 [26:25<38:23, 20.39s/it]
+2026-09-30T01:11:39.357604+00:00                                                 
+2026-09-30T01:11:39.357643+00:00 
+2026-09-30T01:11:58.425958+00:00  40%|████      | 76/189 [26:25<38:23, 20.39s/it]
+2026-09-30T01:11:58.426371+00:00  41%|████      | 77/189 [26:44<37:19, 19.99s/it]
+2026-09-30T01:11:58.426506+00:00                                                 
+2026-09-30T01:11:58.426526+00:00 
+2026-09-30T01:12:16.853604+00:00  41%|████      | 77/189 [26:44<37:19, 19.99s/it]
+2026-09-30T01:12:16.854173+00:00  41%|████▏     | 78/189 [27:02<36:07, 19.52s/it]
+2026-09-30T01:12:16.854444+00:00                                                 
+2026-09-30T01:12:16.854499+00:00 
+2026-09-30T01:12:35.652453+00:00  41%|████▏     | 78/189 [27:02<36:07, 19.52s/it]
+2026-09-30T01:12:35.652973+00:00  42%|████▏     | 79/189 [27:21<35:23, 19.31s/it]
+2026-09-30T01:12:35.653203+00:00                                                 
+2026-09-30T01:12:35.653241+00:00 
+2026-09-30T01:12:55.500752+00:00  42%|████▏     | 79/189 [27:21<35:23, 19.31s/it]
+2026-09-30T01:12:55.501234+00:00  42%|████▏     | 80/189 [27:41<35:22, 19.47s/it]
+2026-09-30T01:12:55.501270+00:00                                                 
+2026-09-30T01:12:55.501285+00:00 
+2026-09-30T01:13:19.260865+00:00  42%|████▏     | 80/189 [27:41<35:22, 19.47s/it]
+2026-09-30T01:13:19.261327+00:00  43%|████▎     | 81/189 [28:05<37:21, 20.76s/it]
+2026-09-30T01:13:19.261570+00:00                                                 
+2026-09-30T01:13:19.261611+00:00 
+2026-09-30T01:13:42.981307+00:00  43%|████▎     | 81/189 [28:05<37:21, 20.76s/it]
+2026-09-30T01:13:42.981830+00:00  43%|████▎     | 82/189 [28:29<38:36, 21.65s/it]
+2026-09-30T01:13:42.982060+00:00                                                 
+2026-09-30T01:13:42.982101+00:00 
+2026-09-30T01:14:02.348160+00:00  43%|████▎     | 82/189 [28:29<38:36, 21.65s/it]
+2026-09-30T01:14:02.348676+00:00  44%|████▍     | 83/189 [28:48<37:01, 20.96s/it]
+2026-09-30T01:14:02.348874+00:00                                                 
+2026-09-30T01:14:02.348912+00:00 
+2026-09-30T01:14:21.547559+00:00  44%|████▍     | 83/189 [28:48<37:01, 20.96s/it]
+2026-09-30T01:14:21.548033+00:00  44%|████▍     | 84/189 [29:07<35:45, 20.43s/it]
+2026-09-30T01:14:21.548184+00:00                                                 
+2026-09-30T01:14:21.548220+00:00 
+2026-09-30T01:14:43.719308+00:00  44%|████▍     | 84/189 [29:07<35:45, 20.43s/it]
+2026-09-30T01:14:43.719795+00:00  45%|████▍     | 85/189 [29:29<36:19, 20.95s/it]
+2026-09-30T01:14:43.719850+00:00                                                 
+2026-09-30T01:14:43.719864+00:00 {'loss': '0.6544', 'grad_norm': '1.898', 'learning_rate': '5e-06', 'entropy': '1.329', 'num_tokens': '2.104e+05', 'logits/chosen': '-1.992', 'logits/rejected': '-1.931', 'mean_token_accuracy': '0.5153', 'rewards/chosen': '0.14', 'rewards/rejected': '0.06026', 'rewards/accuracies': '0.875', 'rewards/margins': '0.07975', 'logps/chosen': '-245.9', 'logps/rejected': '-247.9', 'epoch': '1.016'}
+2026-09-30T01:14:43.719878+00:00 {'loss': '0.6434', 'grad_norm': '1.945', 'learning_rate': '5e-06', 'entropy': '0.9355', 'num_tokens': '2.141e+05', 'logits/chosen': '-2.43', 'logits/rejected': '-2.206', 'mean_token_accuracy': '0.5864', 'rewards/chosen': '0.1914', 'rewards/rejected': '0.08836', 'rewards/accuracies': '1', 'rewards/margins': '0.1031', 'logps/chosen': '-273.9', 'logps/rejected': '-288.7', 'epoch': '1.032'}
+2026-09-30T01:14:43.719888+00:00 {'loss': '0.6408', 'grad_norm': '1.983', 'learning_rate': '5e-06', 'entropy': '1.193', 'num_tokens': '2.173e+05', 'logits/chosen': '-2.194', 'logits/rejected': '-2.026', 'mean_token_accuracy': '0.5362', 'rewards/chosen': '0.1695', 'rewards/rejected': '0.06003', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1094', 'logps/chosen': '-325.2', 'logps/rejected': '-325.5', 'epoch': '1.048'}
+2026-09-30T01:14:43.719898+00:00 {'loss': '0.6452', 'grad_norm': '2.031', 'learning_rate': '5e-06', 'entropy': '1.118', 'num_tokens': '2.202e+05', 'logits/chosen': '-2.207', 'logits/rejected': '-2.26', 'mean_token_accuracy': '0.4983', 'rewards/chosen': '0.1707', 'rewards/rejected': '0.07126', 'rewards/accuracies': '0.875', 'rewards/margins': '0.09946', 'logps/chosen': '-258.9', 'logps/rejected': '-253.1', 'epoch': '1.063'}
+2026-09-30T01:14:43.719908+00:00 {'loss': '0.6336', 'grad_norm': '1.976', 'learning_rate': '5e-06', 'entropy': '1.344', 'num_tokens': '2.238e+05', 'logits/chosen': '-1.986', 'logits/rejected': '-1.918', 'mean_token_accuracy': '0.5024', 'rewards/chosen': '0.1771', 'rewards/rejected': '0.05285', 'rewards/accuracies': '1', 'rewards/margins': '0.1243', 'logps/chosen': '-296.3', 'logps/rejected': '-306.7', 'epoch': '1.079'}
+2026-09-30T01:14:43.719917+00:00 {'loss': '0.6422', 'grad_norm': '2.088', 'learning_rate': '5e-06', 'entropy': '1.399', 'num_tokens': '2.277e+05', 'logits/chosen': '-1.934', 'logits/rejected': '-1.767', 'mean_token_accuracy': '0.5209', 'rewards/chosen': '0.1702', 'rewards/rejected': '0.06386', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1063', 'logps/chosen': '-488', 'logps/rejected': '-462', 'epoch': '1.095'}
+2026-09-30T01:14:43.719928+00:00 {'loss': '0.6369', 'grad_norm': '1.963', 'learning_rate': '5e-06', 'entropy': '1.171', 'num_tokens': '2.313e+05', 'logits/chosen': '-2.033', 'logits/rejected': '-2.021', 'mean_token_accuracy': '0.5237', 'rewards/chosen': '0.1819', 'rewards/rejected': '0.06467', 'rewards/accuracies': '1', 'rewards/margins': '0.1172', 'logps/chosen': '-334.8', 'logps/rejected': '-312.2', 'epoch': '1.111'}
+2026-09-30T01:14:43.719937+00:00 {'loss': '0.6286', 'grad_norm': '1.996', 'learning_rate': '5e-06', 'entropy': '1.232', 'num_tokens': '2.341e+05', 'logits/chosen': '-2.284', 'logits/rejected': '-2.043', 'mean_token_accuracy': '0.5178', 'rewards/chosen': '0.1833', 'rewards/rejected': '0.04832', 'rewards/accuracies': '1', 'rewards/margins': '0.135', 'logps/chosen': '-273.1', 'logps/rejected': '-278.3', 'epoch': '1.127'}
+2026-09-30T01:14:43.719947+00:00 {'loss': '0.6329', 'grad_norm': '1.923', 'learning_rate': '5e-06', 'entropy': '1.152', 'num_tokens': '2.37e+05', 'logits/chosen': '-2.218', 'logits/rejected': '-2.043', 'mean_token_accuracy': '0.5505', 'rewards/chosen': '0.1634', 'rewards/rejected': '0.03534', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1281', 'logps/chosen': '-234.4', 'logps/rejected': '-236.4', 'epoch': '1.143'}
+2026-09-30T01:14:43.719956+00:00 {'loss': '0.6252', 'grad_norm': '1.997', 'learning_rate': '5e-06', 'entropy': '1.028', 'num_tokens': '2.392e+05', 'logits/chosen': '-2.351', 'logits/rejected': '-2.285', 'mean_token_accuracy': '0.5152', 'rewards/chosen': '0.2144', 'rewards/rejected': '0.07087', 'rewards/accuracies': '1', 'rewards/margins': '0.1435', 'logps/chosen': '-244.4', 'logps/rejected': '-253.5', 'epoch': '1.159'}
+2026-09-30T01:14:43.719971+00:00 {'loss': '0.6324', 'grad_norm': '1.954', 'learning_rate': '5e-06', 'entropy': '1.13', 'num_tokens': '2.429e+05', 'logits/chosen': '-2.173', 'logits/rejected': '-2.06', 'mean_token_accuracy': '0.559', 'rewards/chosen': '0.1596', 'rewards/rejected': '0.03339', 'rewards/accuracies': '1', 'rewards/margins': '0.1262', 'logps/chosen': '-308.6', 'logps/rejected': '-319.7', 'epoch': '1.175'}
+2026-09-30T01:14:43.719991+00:00 {'loss': '0.6106', 'grad_norm': '2.28', 'learning_rate': '5e-06', 'entropy': '1.184', 'num_tokens': '2.457e+05', 'logits/chosen': '-2.142', 'logits/rejected': '-1.945', 'mean_token_accuracy': '0.5203', 'rewards/chosen': '0.2072', 'rewards/rejected': '0.034', 'rewards/accuracies': '1', 'rewards/margins': '0.1732', 'logps/chosen': '-265.7', 'logps/rejected': '-255.8', 'epoch': '1.19'}
+2026-09-30T01:14:43.720001+00:00 {'loss': '0.6316', 'grad_norm': '1.931', 'learning_rate': '5e-06', 'entropy': '1.196', 'num_tokens': '2.491e+05', 'logits/chosen': '-2.326', 'logits/rejected': '-2.129', 'mean_token_accuracy': '0.558', 'rewards/chosen': '0.1964', 'rewards/rejected': '0.06663', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1298', 'logps/chosen': '-295.7', 'logps/rejected': '-308.2', 'epoch': '1.206'}
+2026-09-30T01:14:43.720010+00:00 {'loss': '0.6249', 'grad_norm': '1.923', 'learning_rate': '5e-06', 'entropy': '1.06', 'num_tokens': '2.518e+05', 'logits/chosen': '-2.336', 'logits/rejected': '-2.272', 'mean_token_accuracy': '0.5694', 'rewards/chosen': '0.2371', 'rewards/rejected': '0.09236', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1447', 'logps/chosen': '-256.2', 'logps/rejected': '-278', 'epoch': '1.222'}
+2026-09-30T01:14:43.720021+00:00 {'loss': '0.6326', 'grad_norm': '1.84', 'learning_rate': '5e-06', 'entropy': '1.044', 'num_tokens': '2.545e+05', 'logits/chosen': '-2.348', 'logits/rejected': '-2.233', 'mean_token_accuracy': '0.566', 'rewards/chosen': '0.2008', 'rewards/rejected': '0.07467', 'rewards/accuracies': '1', 'rewards/margins': '0.1261', 'logps/chosen': '-218.7', 'logps/rejected': '-235.2', 'epoch': '1.238'}
+2026-09-30T01:14:43.720030+00:00 {'loss': '0.6273', 'grad_norm': '2.128', 'learning_rate': '5e-06', 'entropy': '1.249', 'num_tokens': '2.573e+05', 'logits/chosen': '-2.103', 'logits/rejected': '-2.037', 'mean_token_accuracy': '0.5101', 'rewards/chosen': '0.2197', 'rewards/rejected': '0.08321', 'rewards/accuracies': '1', 'rewards/margins': '0.1365', 'logps/chosen': '-293.2', 'logps/rejected': '-290.9', 'epoch': '1.254'}
+2026-09-30T01:14:43.720039+00:00 {'loss': '0.6044', 'grad_norm': '2.086', 'learning_rate': '5e-06', 'entropy': '1.094', 'num_tokens': '2.604e+05', 'logits/chosen': '-2.337', 'logits/rejected': '-1.972', 'mean_token_accuracy': '0.5596', 'rewards/chosen': '0.2408', 'rewards/rejected': '0.0525', 'rewards/accuracies': '1', 'rewards/margins': '0.1883', 'logps/chosen': '-292.8', 'logps/rejected': '-294.5', 'epoch': '1.27'}
+2026-09-30T01:14:43.720048+00:00 {'loss': '0.6158', 'grad_norm': '1.975', 'learning_rate': '5e-06', 'entropy': '1.24', 'num_tokens': '2.643e+05', 'logits/chosen': '-2.259', 'logits/rejected': '-2.056', 'mean_token_accuracy': '0.5246', 'rewards/chosen': '0.2212', 'rewards/rejected': '0.05897', 'rewards/accuracies': '1', 'rewards/margins': '0.1622', 'logps/chosen': '-270', 'logps/rejected': '-268.4', 'epoch': '1.286'}
+2026-09-30T01:14:43.720062+00:00 {'loss': '0.648', 'grad_norm': '1.935', 'learning_rate': '5e-06', 'entropy': '1.326', 'num_tokens': '2.681e+05', 'logits/chosen': '-2.018', 'logits/rejected': '-1.96', 'mean_token_accuracy': '0.5085', 'rewards/chosen': '0.1937', 'rewards/rejected': '0.1011', 'rewards/accuracies': '1', 'rewards/margins': '0.09261', 'logps/chosen': '-412.3', 'logps/rejected': '-394.1', 'epoch': '1.302'}
+2026-09-30T01:14:43.720074+00:00 {'loss': '0.6094', 'grad_norm': '2.164', 'learning_rate': '5e-06', 'entropy': '1.157', 'num_tokens': '2.709e+05', 'logits/chosen': '-2.19', 'logits/rejected': '-2.25', 'mean_token_accuracy': '0.5282', 'rewards/chosen': '0.2439', 'rewards/rejected': '0.06772', 'rewards/accuracies': '1', 'rewards/margins': '0.1762', 'logps/chosen': '-288.8', 'logps/rejected': '-295.8', 'epoch': '1.317'}
+2026-09-30T01:14:43.720083+00:00 {'loss': '0.6035', 'grad_norm': '2.107', 'learning_rate': '5e-06', 'entropy': '1.185', 'num_tokens': '2.737e+05', 'logits/chosen': '-2.252', 'logits/rejected': '-1.966', 'mean_token_accuracy': '0.5211', 'rewards/chosen': '0.2757', 'rewards/rejected': '0.08654', 'rewards/accuracies': '1', 'rewards/margins': '0.1892', 'logps/chosen': '-278.5', 'logps/rejected': '-295.4', 'epoch': '1.333'}
+2026-09-30T01:14:43.720103+00:00 {'loss': '0.6193', 'grad_norm': '2.119', 'learning_rate': '5e-06', 'entropy': '1.03', 'num_tokens': '2.773e+05', 'logits/chosen': '-2.248', 'logits/rejected': '-2.099', 'mean_token_accuracy': '0.5488', 'rewards/chosen': '0.2875', 'rewards/rejected': '0.1292', 'rewards/accuracies': '1', 'rewards/margins': '0.1584', 'logps/chosen': '-295.6', 'logps/rejected': '-280.8', 'epoch': '1.349'}
+2026-09-30T01:15:10.100708+00:00  45%|████▍     | 85/189 [29:29<36:19, 20.95s/it]
+2026-09-30T01:15:10.101180+00:00  46%|████▌     | 86/189 [29:56<38:46, 22.58s/it]
+2026-09-30T01:15:10.101401+00:00                                                 
+2026-09-30T01:15:10.101439+00:00 
+2026-09-30T01:15:34.126776+00:00  46%|████▌     | 86/189 [29:56<38:46, 22.58s/it]
+2026-09-30T01:15:34.127291+00:00  46%|████▌     | 87/189 [30:20<39:07, 23.02s/it]
+2026-09-30T01:15:34.127456+00:00                                                 
+2026-09-30T01:15:34.127476+00:00 
+2026-09-30T01:15:54.782589+00:00  46%|████▌     | 87/189 [30:20<39:07, 23.02s/it]
+2026-09-30T01:15:54.783015+00:00  47%|████▋     | 88/189 [30:40<37:33, 22.31s/it]
+2026-09-30T01:15:54.783193+00:00                                                 
+2026-09-30T01:15:54.783213+00:00 
+2026-09-30T01:16:14.093606+00:00  47%|████▋     | 88/189 [30:40<37:33, 22.31s/it]
+2026-09-30T01:16:14.094144+00:00  47%|████▋     | 89/189 [31:00<35:40, 21.41s/it]
+2026-09-30T01:16:14.094293+00:00                                                 
+2026-09-30T01:16:14.094312+00:00 
+2026-09-30T01:16:36.244514+00:00  47%|████▋     | 89/189 [31:00<35:40, 21.41s/it]
+2026-09-30T01:16:36.245003+00:00  48%|████▊     | 90/189 [31:22<35:41, 21.63s/it]
+2026-09-30T01:16:36.245166+00:00                                                 
+2026-09-30T01:16:36.245200+00:00 
+2026-09-30T01:16:59.305337+00:00  48%|████▊     | 90/189 [31:22<35:41, 21.63s/it]
+2026-09-30T01:16:59.305853+00:00  48%|████▊     | 91/189 [31:45<36:01, 22.06s/it]
+2026-09-30T01:16:59.306080+00:00                                                 
+2026-09-30T01:16:59.306119+00:00 
+2026-09-30T01:17:18.332975+00:00  48%|████▊     | 91/189 [31:45<36:01, 22.06s/it]
+2026-09-30T01:17:18.333451+00:00  49%|████▊     | 92/189 [32:04<34:11, 21.15s/it]
+2026-09-30T01:17:18.333695+00:00                                                 
+2026-09-30T01:17:18.333736+00:00 
+2026-09-30T01:17:36.984321+00:00  49%|████▊     | 92/189 [32:04<34:11, 21.15s/it]
+2026-09-30T01:17:36.984793+00:00  49%|████▉     | 93/189 [32:23<32:38, 20.40s/it]
+2026-09-30T01:17:36.984897+00:00                                                 
+2026-09-30T01:17:36.984919+00:00 
+2026-09-30T01:17:59.787688+00:00  49%|████▉     | 93/189 [32:23<32:38, 20.40s/it]
+2026-09-30T01:17:59.788090+00:00  50%|████▉     | 94/189 [32:45<33:26, 21.12s/it]
+2026-09-30T01:17:59.788269+00:00                                                 
+2026-09-30T01:17:59.788288+00:00 
+2026-09-30T01:18:17.639631+00:00  50%|████▉     | 94/189 [32:45<33:26, 21.12s/it]
+2026-09-30T01:18:17.640083+00:00  50%|█████     | 95/189 [33:03<31:33, 20.14s/it]
+2026-09-30T01:18:17.640277+00:00                                                 
+2026-09-30T01:18:17.640295+00:00 
+2026-09-30T01:18:42.071779+00:00  50%|█████     | 95/189 [33:03<31:33, 20.14s/it]
+2026-09-30T01:18:42.072199+00:00  51%|█████     | 96/189 [33:28<33:12, 21.43s/it]
+2026-09-30T01:18:42.072328+00:00                                                 
+2026-09-30T01:18:42.072348+00:00 
+2026-09-30T01:19:04.164895+00:00  51%|█████     | 96/189 [33:28<33:12, 21.43s/it]
+2026-09-30T01:19:04.165409+00:00  51%|█████▏    | 97/189 [33:50<33:09, 21.63s/it]
+2026-09-30T01:19:04.165632+00:00                                                 
+2026-09-30T01:19:04.165700+00:00 
+2026-09-30T01:19:27.239241+00:00  51%|█████▏    | 97/189 [33:50<33:09, 21.63s/it]
+2026-09-30T01:19:27.239777+00:00  52%|█████▏    | 98/189 [34:13<33:27, 22.06s/it]
+2026-09-30T01:19:27.240023+00:00                                                 
+2026-09-30T01:19:27.240065+00:00 
+2026-09-30T01:19:49.578987+00:00  52%|█████▏    | 98/189 [34:13<33:27, 22.06s/it]
+2026-09-30T01:19:49.579589+00:00  52%|█████▏    | 99/189 [34:35<33:13, 22.15s/it]
+2026-09-30T01:19:49.579925+00:00                                                 
+2026-09-30T01:19:49.580009+00:00 
+2026-09-30T01:20:14.968695+00:00  52%|█████▏    | 99/189 [34:35<33:13, 22.15s/it]
+2026-09-30T01:20:14.969266+00:00  53%|█████▎    | 100/189 [35:01<34:17, 23.12s/it]
+2026-09-30T01:20:14.969517+00:00                                                  
+2026-09-30T01:20:14.969568+00:00 
+2026-09-30T01:20:39.332821+00:00  53%|█████▎    | 100/189 [35:01<34:17, 23.12s/it]
+2026-09-30T01:20:39.333395+00:00  53%|█████▎    | 101/189 [35:25<34:27, 23.49s/it]
+2026-09-30T01:20:39.333561+00:00                                                  
+2026-09-30T01:20:39.333592+00:00 
+2026-09-30T01:21:02.169488+00:00  53%|█████▎    | 101/189 [35:25<34:27, 23.49s/it]
+2026-09-30T01:21:02.170106+00:00  54%|█████▍    | 102/189 [35:48<33:46, 23.30s/it]
+2026-09-30T01:21:02.170167+00:00                                                  
+2026-09-30T01:21:02.170183+00:00 
+2026-09-30T01:21:24.031639+00:00  54%|█████▍    | 102/189 [35:48<33:46, 23.30s/it]
+2026-09-30T01:21:24.032179+00:00  54%|█████▍    | 103/189 [36:10<32:46, 22.87s/it]
+2026-09-30T01:21:24.032421+00:00                                                  
+2026-09-30T01:21:24.032464+00:00 
+2026-09-30T01:21:44.630889+00:00  54%|█████▍    | 103/189 [36:10<32:46, 22.87s/it]
+2026-09-30T01:21:44.631366+00:00  55%|█████▌    | 104/189 [36:30<31:25, 22.19s/it]
+2026-09-30T01:21:44.631538+00:00                                                  
+2026-09-30T01:21:44.631559+00:00 
+2026-09-30T01:22:09.244085+00:00  55%|█████▌    | 104/189 [36:30<31:25, 22.19s/it]
+2026-09-30T01:22:09.244573+00:00  56%|█████▌    | 105/189 [36:55<32:04, 22.91s/it]
+2026-09-30T01:22:09.244772+00:00                                                  
+2026-09-30T01:22:09.244795+00:00 
+2026-09-30T01:22:36.064029+00:00  56%|█████▌    | 105/189 [36:55<32:04, 22.91s/it]
+2026-09-30T01:22:36.064585+00:00  56%|█████▌    | 106/189 [37:22<33:19, 24.09s/it]
+2026-09-30T01:22:36.064813+00:00                                                  
+2026-09-30T01:22:36.064836+00:00 
+2026-09-30T01:22:55.540717+00:00  56%|█████▌    | 106/189 [37:22<33:19, 24.09s/it]
+2026-09-30T01:22:55.541175+00:00  57%|█████▋    | 107/189 [37:41<31:01, 22.70s/it]
+2026-09-30T01:22:55.541232+00:00                                                  
+2026-09-30T01:22:55.541247+00:00 {'loss': '0.6439', 'grad_norm': '2.169', 'learning_rate': '5e-06', 'entropy': '1.121', 'num_tokens': '2.819e+05', 'logits/chosen': '-2.172', 'logits/rejected': '-2.117', 'mean_token_accuracy': '0.5622', 'rewards/chosen': '0.1958', 'rewards/rejected': '0.09412', 'rewards/accuracies': '1', 'rewards/margins': '0.1017', 'logps/chosen': '-413.9', 'logps/rejected': '-398.1', 'epoch': '1.365'}
+2026-09-30T01:22:55.541276+00:00 {'loss': '0.6065', 'grad_norm': '1.987', 'learning_rate': '5e-06', 'entropy': '1.36', 'num_tokens': '2.859e+05', 'logits/chosen': '-2.052', 'logits/rejected': '-1.781', 'mean_token_accuracy': '0.5175', 'rewards/chosen': '0.2396', 'rewards/rejected': '0.05666', 'rewards/accuracies': '1', 'rewards/margins': '0.183', 'logps/chosen': '-336.7', 'logps/rejected': '-325.4', 'epoch': '1.381'}
+2026-09-30T01:22:55.541288+00:00 {'loss': '0.6073', 'grad_norm': '2.042', 'learning_rate': '5e-06', 'entropy': '1.235', 'num_tokens': '2.891e+05', 'logits/chosen': '-1.969', 'logits/rejected': '-1.902', 'mean_token_accuracy': '0.5117', 'rewards/chosen': '0.2719', 'rewards/rejected': '0.08699', 'rewards/accuracies': '1', 'rewards/margins': '0.1849', 'logps/chosen': '-312.4', 'logps/rejected': '-305.2', 'epoch': '1.397'}
+2026-09-30T01:22:55.541299+00:00 {'loss': '0.6364', 'grad_norm': '1.87', 'learning_rate': '5e-06', 'entropy': '1.086', 'num_tokens': '2.919e+05', 'logits/chosen': '-2.297', 'logits/rejected': '-2.217', 'mean_token_accuracy': '0.5772', 'rewards/chosen': '0.2351', 'rewards/rejected': '0.1167', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1184', 'logps/chosen': '-236.4', 'logps/rejected': '-242.4', 'epoch': '1.413'}
+2026-09-30T01:22:55.541310+00:00 {'loss': '0.6163', 'grad_norm': '2.27', 'learning_rate': '5e-06', 'entropy': '1.041', 'num_tokens': '2.956e+05', 'logits/chosen': '-2.192', 'logits/rejected': '-2.02', 'mean_token_accuracy': '0.576', 'rewards/chosen': '0.285', 'rewards/rejected': '0.122', 'rewards/accuracies': '1', 'rewards/margins': '0.1631', 'logps/chosen': '-266.4', 'logps/rejected': '-309.8', 'epoch': '1.429'}
+2026-09-30T01:22:55.541328+00:00 {'loss': '0.6465', 'grad_norm': '2.012', 'learning_rate': '5e-06', 'entropy': '1.193', 'num_tokens': '2.993e+05', 'logits/chosen': '-2.143', 'logits/rejected': '-1.997', 'mean_token_accuracy': '0.5377', 'rewards/chosen': '0.2515', 'rewards/rejected': '0.1521', 'rewards/accuracies': '0.75', 'rewards/margins': '0.09938', 'logps/chosen': '-285.7', 'logps/rejected': '-308.1', 'epoch': '1.444'}
+2026-09-30T01:22:55.541340+00:00 {'loss': '0.62', 'grad_norm': '1.944', 'learning_rate': '5e-06', 'entropy': '1.233', 'num_tokens': '3.02e+05', 'logits/chosen': '-1.934', 'logits/rejected': '-1.867', 'mean_token_accuracy': '0.518', 'rewards/chosen': '0.223', 'rewards/rejected': '0.06504', 'rewards/accuracies': '0.75', 'rewards/margins': '0.158', 'logps/chosen': '-271.4', 'logps/rejected': '-279.4', 'epoch': '1.46'}
+2026-09-30T01:22:55.541349+00:00 {'loss': '0.5628', 'grad_norm': '2.357', 'learning_rate': '5e-06', 'entropy': '1.07', 'num_tokens': '3.047e+05', 'logits/chosen': '-2.318', 'logits/rejected': '-2.094', 'mean_token_accuracy': '0.5477', 'rewards/chosen': '0.3932', 'rewards/rejected': '0.1087', 'rewards/accuracies': '1', 'rewards/margins': '0.2846', 'logps/chosen': '-313.1', 'logps/rejected': '-328.8', 'epoch': '1.476'}
+2026-09-30T01:22:55.541359+00:00 {'loss': '0.6105', 'grad_norm': '2.257', 'learning_rate': '5e-06', 'entropy': '1.33', 'num_tokens': '3.084e+05', 'logits/chosen': '-1.978', 'logits/rejected': '-1.9', 'mean_token_accuracy': '0.5045', 'rewards/chosen': '0.3219', 'rewards/rejected': '0.1472', 'rewards/accuracies': '1', 'rewards/margins': '0.1748', 'logps/chosen': '-392.4', 'logps/rejected': '-382', 'epoch': '1.492'}
+2026-09-30T01:22:55.541367+00:00 {'loss': '0.6302', 'grad_norm': '1.927', 'learning_rate': '5e-06', 'entropy': '1.216', 'num_tokens': '3.109e+05', 'logits/chosen': '-2.02', 'logits/rejected': '-1.884', 'mean_token_accuracy': '0.5325', 'rewards/chosen': '0.2406', 'rewards/rejected': '0.1093', 'rewards/accuracies': '1', 'rewards/margins': '0.1313', 'logps/chosen': '-254.2', 'logps/rejected': '-276', 'epoch': '1.508'}
+2026-09-30T01:22:55.541376+00:00 {'loss': '0.5967', 'grad_norm': '1.982', 'learning_rate': '5e-06', 'entropy': '1.297', 'num_tokens': '3.151e+05', 'logits/chosen': '-1.968', 'logits/rejected': '-2.045', 'mean_token_accuracy': '0.4997', 'rewards/chosen': '0.3001', 'rewards/rejected': '0.08899', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2111', 'logps/chosen': '-305.7', 'logps/rejected': '-317', 'epoch': '1.524'}
+2026-09-30T01:22:55.541391+00:00 {'loss': '0.6572', 'grad_norm': '1.803', 'learning_rate': '5e-06', 'entropy': '1.204', 'num_tokens': '3.187e+05', 'logits/chosen': '-2.115', 'logits/rejected': '-2.046', 'mean_token_accuracy': '0.5427', 'rewards/chosen': '0.2909', 'rewards/rejected': '0.2138', 'rewards/accuracies': '0.75', 'rewards/margins': '0.07704', 'logps/chosen': '-283.8', 'logps/rejected': '-309.6', 'epoch': '1.54'}
+2026-09-30T01:22:55.541401+00:00 {'loss': '0.6019', 'grad_norm': '2.178', 'learning_rate': '5e-06', 'entropy': '1.11', 'num_tokens': '3.225e+05', 'logits/chosen': '-2.199', 'logits/rejected': '-2.059', 'mean_token_accuracy': '0.556', 'rewards/chosen': '0.392', 'rewards/rejected': '0.1919', 'rewards/accuracies': '1', 'rewards/margins': '0.2001', 'logps/chosen': '-325.1', 'logps/rejected': '-321.1', 'epoch': '1.556'}
+2026-09-30T01:22:55.541409+00:00 {'loss': '0.6143', 'grad_norm': '2.211', 'learning_rate': '5e-06', 'entropy': '1.046', 'num_tokens': '3.262e+05', 'logits/chosen': '-2.137', 'logits/rejected': '-2.171', 'mean_token_accuracy': '0.5358', 'rewards/chosen': '0.3562', 'rewards/rejected': '0.1892', 'rewards/accuracies': '1', 'rewards/margins': '0.167', 'logps/chosen': '-301.3', 'logps/rejected': '-282.5', 'epoch': '1.571'}
+2026-09-30T01:22:55.541427+00:00 {'loss': '0.6378', 'grad_norm': '2.134', 'learning_rate': '5e-06', 'entropy': '1.221', 'num_tokens': '3.306e+05', 'logits/chosen': '-2.128', 'logits/rejected': '-2.037', 'mean_token_accuracy': '0.5329', 'rewards/chosen': '0.3111', 'rewards/rejected': '0.1929', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1182', 'logps/chosen': '-377.1', 'logps/rejected': '-389', 'epoch': '1.587'}
+2026-09-30T01:22:55.541437+00:00 {'loss': '0.5596', 'grad_norm': '2.484', 'learning_rate': '5e-06', 'entropy': '1.116', 'num_tokens': '3.345e+05', 'logits/chosen': '-2.189', 'logits/rejected': '-1.897', 'mean_token_accuracy': '0.5775', 'rewards/chosen': '0.4689', 'rewards/rejected': '0.173', 'rewards/accuracies': '1', 'rewards/margins': '0.2959', 'logps/chosen': '-334.8', 'logps/rejected': '-320.1', 'epoch': '1.603'}
+2026-09-30T01:22:55.541446+00:00 {'loss': '0.5747', 'grad_norm': '2.308', 'learning_rate': '5e-06', 'entropy': '1.267', 'num_tokens': '3.381e+05', 'logits/chosen': '-2.012', 'logits/rejected': '-2.016', 'mean_token_accuracy': '0.4809', 'rewards/chosen': '0.4139', 'rewards/rejected': '0.1569', 'rewards/accuracies': '1', 'rewards/margins': '0.257', 'logps/chosen': '-332.1', 'logps/rejected': '-320.8', 'epoch': '1.619'}
+2026-09-30T01:22:55.541454+00:00 {'loss': '0.587', 'grad_norm': '2.202', 'learning_rate': '5e-06', 'entropy': '1.235', 'num_tokens': '3.415e+05', 'logits/chosen': '-2.127', 'logits/rejected': '-2.045', 'mean_token_accuracy': '0.5159', 'rewards/chosen': '0.4156', 'rewards/rejected': '0.1824', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2331', 'logps/chosen': '-306.4', 'logps/rejected': '-307.9', 'epoch': '1.635'}
+2026-09-30T01:22:55.541467+00:00 {'loss': '0.5861', 'grad_norm': '2.156', 'learning_rate': '5e-06', 'entropy': '1.234', 'num_tokens': '3.447e+05', 'logits/chosen': '-2.154', 'logits/rejected': '-1.979', 'mean_token_accuracy': '0.5178', 'rewards/chosen': '0.3593', 'rewards/rejected': '0.1253', 'rewards/accuracies': '0.875', 'rewards/margins': '0.234', 'logps/chosen': '-329.3', 'logps/rejected': '-328.5', 'epoch': '1.651'}
+2026-09-30T01:22:55.541494+00:00 {'loss': '0.6478', 'grad_norm': '2.174', 'learning_rate': '5e-06', 'entropy': '1.135', 'num_tokens': '3.488e+05', 'logits/chosen': '-2.254', 'logits/rejected': '-2.224', 'mean_token_accuracy': '0.5591', 'rewards/chosen': '0.3017', 'rewards/rejected': '0.2015', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1002', 'logps/chosen': '-305.4', 'logps/rejected': '-314.7', 'epoch': '1.667'}
+2026-09-30T01:22:55.541503+00:00 {'loss': '0.604', 'grad_norm': '2.277', 'learning_rate': '5e-06', 'entropy': '1.176', 'num_tokens': '3.534e+05', 'logits/chosen': '-1.958', 'logits/rejected': '-1.929', 'mean_token_accuracy': '0.5561', 'rewards/chosen': '0.3767', 'rewards/rejected': '0.1811', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1956', 'logps/chosen': '-436', 'logps/rejected': '-404.6', 'epoch': '1.683'}
+2026-09-30T01:22:55.541529+00:00 {'loss': '0.5616', 'grad_norm': '2.152', 'learning_rate': '5e-06', 'entropy': '1.16', 'num_tokens': '3.562e+05', 'logits/chosen': '-2.189', 'logits/rejected': '-2.09', 'mean_token_accuracy': '0.5224', 'rewards/chosen': '0.455', 'rewards/rejected': '0.1672', 'rewards/accuracies': '1', 'rewards/margins': '0.2877', 'logps/chosen': '-247.4', 'logps/rejected': '-245.8', 'epoch': '1.698'}
+2026-09-30T01:23:14.461446+00:00  57%|█████▋    | 107/189 [37:41<31:01, 22.70s/it]
+2026-09-30T01:23:14.461881+00:00  57%|█████▋    | 108/189 [38:00<29:07, 21.57s/it]
+2026-09-30T01:23:14.461929+00:00                                                  
+2026-09-30T01:23:14.461942+00:00 
+2026-09-30T01:23:35.031064+00:00  57%|█████▋    | 108/189 [38:00<29:07, 21.57s/it]
+2026-09-30T01:23:35.031454+00:00  58%|█████▊    | 109/189 [38:21<28:21, 21.27s/it]
+2026-09-30T01:23:35.031612+00:00                                                  
+2026-09-30T01:23:35.031636+00:00 
+2026-09-30T01:23:55.899446+00:00  58%|█████▊    | 109/189 [38:21<28:21, 21.27s/it]
+2026-09-30T01:23:55.900010+00:00  58%|█████▊    | 110/189 [38:41<27:50, 21.15s/it]
+2026-09-30T01:23:55.900245+00:00                                                  
+2026-09-30T01:23:55.900284+00:00 
+2026-09-30T01:24:16.183700+00:00  58%|█████▊    | 110/189 [38:41<27:50, 21.15s/it]
+2026-09-30T01:24:16.184087+00:00  59%|█████▊    | 111/189 [39:02<27:09, 20.89s/it]
+2026-09-30T01:24:16.184132+00:00                                                  
+2026-09-30T01:24:16.184146+00:00 
+2026-09-30T01:24:33.298761+00:00  59%|█████▊    | 111/189 [39:02<27:09, 20.89s/it]
+2026-09-30T01:24:33.299185+00:00  59%|█████▉    | 112/189 [39:19<25:21, 19.76s/it]
+2026-09-30T01:24:33.299238+00:00                                                  
+2026-09-30T01:24:33.299252+00:00 
+2026-09-30T01:24:55.814223+00:00  59%|█████▉    | 112/189 [39:19<25:21, 19.76s/it]
+2026-09-30T01:24:55.814695+00:00  60%|█████▉    | 113/189 [39:41<26:04, 20.58s/it]
+2026-09-30T01:24:55.814843+00:00                                                  
+2026-09-30T01:24:55.814866+00:00 
+2026-09-30T01:25:15.055405+00:00  60%|█████▉    | 113/189 [39:41<26:04, 20.58s/it]
+2026-09-30T01:25:15.055914+00:00  60%|██████    | 114/189 [40:01<25:13, 20.18s/it]
+2026-09-30T01:25:15.055978+00:00                                                  
+2026-09-30T01:25:15.055994+00:00 
+2026-09-30T01:25:35.890319+00:00  60%|██████    | 114/189 [40:01<25:13, 20.18s/it]
+2026-09-30T01:25:35.890771+00:00  61%|██████    | 115/189 [40:21<25:07, 20.38s/it]
+2026-09-30T01:25:35.890902+00:00                                                  
+2026-09-30T01:25:35.890925+00:00 
+2026-09-30T01:25:55.791400+00:00  61%|██████    | 115/189 [40:21<25:07, 20.38s/it]
+2026-09-30T01:25:55.791829+00:00  61%|██████▏   | 116/189 [40:41<24:37, 20.23s/it]
+2026-09-30T01:25:55.791902+00:00                                                  
+2026-09-30T01:25:55.791918+00:00 
+2026-09-30T01:26:15.943307+00:00  61%|██████▏   | 116/189 [40:41<24:37, 20.23s/it]
+2026-09-30T01:26:15.943823+00:00  62%|██████▏   | 117/189 [41:01<24:15, 20.21s/it]
+2026-09-30T01:26:15.943872+00:00                                                  
+2026-09-30T01:26:15.943887+00:00 
+2026-09-30T01:26:34.736172+00:00  62%|██████▏   | 117/189 [41:01<24:15, 20.21s/it]
+2026-09-30T01:26:34.736735+00:00  62%|██████▏   | 118/189 [41:20<23:24, 19.78s/it]
+2026-09-30T01:26:34.736925+00:00                                                  
+2026-09-30T01:26:34.736973+00:00 
+2026-09-30T01:26:55.299475+00:00  62%|██████▏   | 118/189 [41:20<23:24, 19.78s/it]
+2026-09-30T01:26:55.299997+00:00  63%|██████▎   | 119/189 [41:41<23:21, 20.02s/it]
+2026-09-30T01:26:55.300297+00:00                                                  
+2026-09-30T01:26:55.300319+00:00 
+2026-09-30T01:27:17.469708+00:00  63%|██████▎   | 119/189 [41:41<23:21, 20.02s/it]
+2026-09-30T01:27:17.470203+00:00  63%|██████▎   | 120/189 [42:03<23:45, 20.66s/it]
+2026-09-30T01:27:17.470430+00:00                                                  
+2026-09-30T01:27:17.470469+00:00 
+2026-09-30T01:27:42.448136+00:00  63%|██████▎   | 120/189 [42:03<23:45, 20.66s/it]
+2026-09-30T01:27:42.448626+00:00  64%|██████▍   | 121/189 [42:28<24:53, 21.96s/it]
+2026-09-30T01:27:42.448744+00:00                                                  
+2026-09-30T01:27:42.448764+00:00 
+2026-09-30T01:28:02.731265+00:00  64%|██████▍   | 121/189 [42:28<24:53, 21.96s/it]
+2026-09-30T01:28:02.731831+00:00  65%|██████▍   | 122/189 [42:48<23:57, 21.46s/it]
+2026-09-30T01:28:02.732099+00:00                                                  
+2026-09-30T01:28:02.732145+00:00 
+2026-09-30T01:28:27.146631+00:00  65%|██████▍   | 122/189 [42:48<23:57, 21.46s/it]
+2026-09-30T01:28:27.147147+00:00  65%|██████▌   | 123/189 [43:13<24:34, 22.34s/it]
+2026-09-30T01:28:27.147308+00:00                                                  
+2026-09-30T01:28:27.147333+00:00 
+2026-09-30T01:28:46.901589+00:00  65%|██████▌   | 123/189 [43:13<24:34, 22.34s/it]
+2026-09-30T01:28:46.902103+00:00  66%|██████▌   | 124/189 [43:32<23:21, 21.57s/it]
+2026-09-30T01:28:46.902159+00:00                                                  
+2026-09-30T01:28:46.902176+00:00 
+2026-09-30T01:29:05.115168+00:00  66%|██████▌   | 124/189 [43:32<23:21, 21.57s/it]
+2026-09-30T01:29:05.115538+00:00  66%|██████▌   | 125/189 [43:51<21:55, 20.56s/it]
+2026-09-30T01:29:05.115697+00:00                                                  
+2026-09-30T01:29:05.115731+00:00 
+2026-09-30T01:29:24.549705+00:00  66%|██████▌   | 125/189 [43:51<21:55, 20.56s/it]
+2026-09-30T01:29:24.550256+00:00  67%|██████▋   | 126/189 [44:10<21:14, 20.22s/it]
+2026-09-30T01:29:24.550305+00:00                                                  
+2026-09-30T01:29:24.550322+00:00 
+2026-09-30T01:29:49.086192+00:00  67%|██████▋   | 126/189 [44:10<21:14, 20.22s/it]
+2026-09-30T01:29:49.086685+00:00  67%|██████▋   | 127/189 [44:35<22:14, 21.52s/it]
+2026-09-30T01:29:49.086881+00:00                                                  
+2026-09-30T01:29:49.086903+00:00 
+2026-09-30T01:30:08.677389+00:00  67%|██████▋   | 127/189 [44:35<22:14, 21.52s/it]
+2026-09-30T01:30:08.677983+00:00  68%|██████▊   | 128/189 [44:54<21:17, 20.94s/it]
+2026-09-30T01:30:08.678135+00:00                                                  
+2026-09-30T01:30:08.678156+00:00 
+2026-09-30T01:30:31.398076+00:00  68%|██████▊   | 128/189 [44:54<21:17, 20.94s/it]
+2026-09-30T01:30:31.398527+00:00  68%|██████▊   | 129/189 [45:17<21:28, 21.47s/it]
+2026-09-30T01:30:31.398644+00:00                                                  
+2026-09-30T01:30:31.398746+00:00 {'loss': '0.5987', 'grad_norm': '1.974', 'learning_rate': '5e-06', 'entropy': '1.064', 'num_tokens': '3.59e+05', 'logits/chosen': '-2.189', 'logits/rejected': '-2.039', 'mean_token_accuracy': '0.5536', 'rewards/chosen': '0.3371', 'rewards/rejected': '0.1346', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2026', 'logps/chosen': '-257.3', 'logps/rejected': '-255.5', 'epoch': '1.714'}
+2026-09-30T01:30:31.398766+00:00 {'loss': '0.554', 'grad_norm': '2.123', 'learning_rate': '5e-06', 'entropy': '1.121', 'num_tokens': '3.621e+05', 'logits/chosen': '-2.435', 'logits/rejected': '-2.04', 'mean_token_accuracy': '0.5478', 'rewards/chosen': '0.4861', 'rewards/rejected': '0.1707', 'rewards/accuracies': '1', 'rewards/margins': '0.3154', 'logps/chosen': '-261.8', 'logps/rejected': '-275.4', 'epoch': '1.73'}
+2026-09-30T01:30:31.398793+00:00 {'loss': '0.5614', 'grad_norm': '2.296', 'learning_rate': '5e-06', 'entropy': '1.047', 'num_tokens': '3.653e+05', 'logits/chosen': '-2.332', 'logits/rejected': '-2.175', 'mean_token_accuracy': '0.5539', 'rewards/chosen': '0.4489', 'rewards/rejected': '0.1509', 'rewards/accuracies': '1', 'rewards/margins': '0.298', 'logps/chosen': '-240', 'logps/rejected': '-253.2', 'epoch': '1.746'}
+2026-09-30T01:30:31.398805+00:00 {'loss': '0.5912', 'grad_norm': '2.074', 'learning_rate': '5e-06', 'entropy': '1.212', 'num_tokens': '3.683e+05', 'logits/chosen': '-2.216', 'logits/rejected': '-2.165', 'mean_token_accuracy': '0.5227', 'rewards/chosen': '0.3547', 'rewards/rejected': '0.1339', 'rewards/accuracies': '1', 'rewards/margins': '0.2209', 'logps/chosen': '-258.3', 'logps/rejected': '-267.5', 'epoch': '1.762'}
+2026-09-30T01:30:31.398818+00:00 {'loss': '0.6166', 'grad_norm': '1.966', 'learning_rate': '5e-06', 'entropy': '1.079', 'num_tokens': '3.707e+05', 'logits/chosen': '-2.069', 'logits/rejected': '-1.987', 'mean_token_accuracy': '0.5399', 'rewards/chosen': '0.318', 'rewards/rejected': '0.1555', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1625', 'logps/chosen': '-228.1', 'logps/rejected': '-228.4', 'epoch': '1.778'}
+2026-09-30T01:30:31.398829+00:00 {'loss': '0.5785', 'grad_norm': '2.211', 'learning_rate': '5e-06', 'entropy': '1.077', 'num_tokens': '3.743e+05', 'logits/chosen': '-2.099', 'logits/rejected': '-2.066', 'mean_token_accuracy': '0.5464', 'rewards/chosen': '0.4876', 'rewards/rejected': '0.2403', 'rewards/accuracies': '1', 'rewards/margins': '0.2473', 'logps/chosen': '-304.8', 'logps/rejected': '-309.8', 'epoch': '1.794'}
+2026-09-30T01:30:31.398841+00:00 {'loss': '0.557', 'grad_norm': '2.57', 'learning_rate': '5e-06', 'entropy': '1.216', 'num_tokens': '3.772e+05', 'logits/chosen': '-1.958', 'logits/rejected': '-1.854', 'mean_token_accuracy': '0.5135', 'rewards/chosen': '0.4362', 'rewards/rejected': '0.1363', 'rewards/accuracies': '1', 'rewards/margins': '0.2999', 'logps/chosen': '-310.6', 'logps/rejected': '-322.2', 'epoch': '1.81'}
+2026-09-30T01:30:31.398852+00:00 {'loss': '0.5973', 'grad_norm': '2.148', 'learning_rate': '5e-06', 'entropy': '1.102', 'num_tokens': '3.804e+05', 'logits/chosen': '-2.21', 'logits/rejected': '-2.12', 'mean_token_accuracy': '0.5345', 'rewards/chosen': '0.4228', 'rewards/rejected': '0.2107', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2121', 'logps/chosen': '-312', 'logps/rejected': '-316.4', 'epoch': '1.825'}
+2026-09-30T01:30:31.398863+00:00 {'loss': '0.6148', 'grad_norm': '2.199', 'learning_rate': '5e-06', 'entropy': '1.188', 'num_tokens': '3.833e+05', 'logits/chosen': '-2.068', 'logits/rejected': '-1.995', 'mean_token_accuracy': '0.561', 'rewards/chosen': '0.339', 'rewards/rejected': '0.1659', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1731', 'logps/chosen': '-275.2', 'logps/rejected': '-296.3', 'epoch': '1.841'}
+2026-09-30T01:30:31.398874+00:00 {'loss': '0.5117', 'grad_norm': '2.435', 'learning_rate': '5e-06', 'entropy': '1.097', 'num_tokens': '3.862e+05', 'logits/chosen': '-2.483', 'logits/rejected': '-2.067', 'mean_token_accuracy': '0.5474', 'rewards/chosen': '0.5601', 'rewards/rejected': '0.1518', 'rewards/accuracies': '1', 'rewards/margins': '0.4083', 'logps/chosen': '-278.1', 'logps/rejected': '-294.7', 'epoch': '1.857'}
+2026-09-30T01:30:31.398885+00:00 {'loss': '0.6143', 'grad_norm': '2.204', 'learning_rate': '5e-06', 'entropy': '1.102', 'num_tokens': '3.888e+05', 'logits/chosen': '-2.008', 'logits/rejected': '-1.913', 'mean_token_accuracy': '0.5645', 'rewards/chosen': '0.3609', 'rewards/rejected': '0.1872', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1736', 'logps/chosen': '-272.2', 'logps/rejected': '-285.2', 'epoch': '1.873'}
+2026-09-30T01:30:31.398898+00:00 {'loss': '0.5399', 'grad_norm': '2.3', 'learning_rate': '5e-06', 'entropy': '1.413', 'num_tokens': '3.918e+05', 'logits/chosen': '-1.91', 'logits/rejected': '-1.858', 'mean_token_accuracy': '0.4919', 'rewards/chosen': '0.4404', 'rewards/rejected': '0.09425', 'rewards/accuracies': '0.875', 'rewards/margins': '0.3462', 'logps/chosen': '-283.6', 'logps/rejected': '-303.1', 'epoch': '1.889'}
+2026-09-30T01:30:31.398913+00:00 {'loss': '0.5453', 'grad_norm': '2.119', 'learning_rate': '5e-06', 'entropy': '1.15', 'num_tokens': '3.953e+05', 'logits/chosen': '-1.888', 'logits/rejected': '-1.838', 'mean_token_accuracy': '0.5255', 'rewards/chosen': '0.4484', 'rewards/rejected': '0.1201', 'rewards/accuracies': '1', 'rewards/margins': '0.3283', 'logps/chosen': '-355', 'logps/rejected': '-333.7', 'epoch': '1.905'}
+2026-09-30T01:30:31.398924+00:00 {'loss': '0.5951', 'grad_norm': '2.4', 'learning_rate': '5e-06', 'entropy': '1.155', 'num_tokens': '3.994e+05', 'logits/chosen': '-1.948', 'logits/rejected': '-1.869', 'mean_token_accuracy': '0.5552', 'rewards/chosen': '0.3296', 'rewards/rejected': '0.1197', 'rewards/accuracies': '1', 'rewards/margins': '0.2099', 'logps/chosen': '-383.5', 'logps/rejected': '-388.4', 'epoch': '1.921'}
+2026-09-30T01:30:31.398938+00:00 {'loss': '0.5675', 'grad_norm': '2.164', 'learning_rate': '5e-06', 'entropy': '1.171', 'num_tokens': '4.024e+05', 'logits/chosen': '-2.18', 'logits/rejected': '-1.946', 'mean_token_accuracy': '0.552', 'rewards/chosen': '0.4099', 'rewards/rejected': '0.1385', 'rewards/accuracies': '1', 'rewards/margins': '0.2714', 'logps/chosen': '-241.9', 'logps/rejected': '-248.2', 'epoch': '1.937'}
+2026-09-30T01:30:31.398949+00:00 {'loss': '0.598', 'grad_norm': '2.212', 'learning_rate': '5e-06', 'entropy': '1.216', 'num_tokens': '4.064e+05', 'logits/chosen': '-1.92', 'logits/rejected': '-1.795', 'mean_token_accuracy': '0.5307', 'rewards/chosen': '0.3412', 'rewards/rejected': '0.1368', 'rewards/accuracies': '1', 'rewards/margins': '0.2044', 'logps/chosen': '-349.8', 'logps/rejected': '-346.6', 'epoch': '1.952'}
+2026-09-30T01:30:31.398959+00:00 {'loss': '0.6349', 'grad_norm': '2.54', 'learning_rate': '5e-06', 'entropy': '1.122', 'num_tokens': '4.093e+05', 'logits/chosen': '-2.153', 'logits/rejected': '-2.038', 'mean_token_accuracy': '0.5346', 'rewards/chosen': '0.344', 'rewards/rejected': '0.2161', 'rewards/accuracies': '0.75', 'rewards/margins': '0.1279', 'logps/chosen': '-278.5', 'logps/rejected': '-274.6', 'epoch': '1.968'}
+2026-09-30T01:30:31.398969+00:00 {'loss': '0.5964', 'grad_norm': '2.305', 'learning_rate': '5e-06', 'entropy': '1.086', 'num_tokens': '4.117e+05', 'logits/chosen': '-2.051', 'logits/rejected': '-1.85', 'mean_token_accuracy': '0.557', 'rewards/chosen': '0.3683', 'rewards/rejected': '0.1601', 'rewards/accuracies': '1', 'rewards/margins': '0.2082', 'logps/chosen': '-260.2', 'logps/rejected': '-273.4', 'epoch': '1.984'}
+2026-09-30T01:30:31.398984+00:00 {'loss': '0.5222', 'grad_norm': '2.239', 'learning_rate': '5e-06', 'entropy': '1.074', 'num_tokens': '4.145e+05', 'logits/chosen': '-2.392', 'logits/rejected': '-2.205', 'mean_token_accuracy': '0.5436', 'rewards/chosen': '0.5165', 'rewards/rejected': '0.1148', 'rewards/accuracies': '1', 'rewards/margins': '0.4017', 'logps/chosen': '-231.7', 'logps/rejected': '-236.7', 'epoch': '2'}
+2026-09-30T01:30:31.398994+00:00 {'loss': '0.5672', 'grad_norm': '2.222', 'learning_rate': '5e-06', 'entropy': '1.15', 'num_tokens': '4.187e+05', 'logits/chosen': '-2.062', 'logits/rejected': '-2.008', 'mean_token_accuracy': '0.5734', 'rewards/chosen': '0.5467', 'rewards/rejected': '0.2444', 'rewards/accuracies': '0.875', 'rewards/margins': '0.3022', 'logps/chosen': '-388.7', 'logps/rejected': '-388.2', 'epoch': '2.016'}
+2026-09-30T01:30:31.399005+00:00 {'loss': '0.5822', 'grad_norm': '2.309', 'learning_rate': '5e-06', 'entropy': '1.263', 'num_tokens': '4.216e+05', 'logits/chosen': '-2.109', 'logits/rejected': '-1.985', 'mean_token_accuracy': '0.4934', 'rewards/chosen': '0.4895', 'rewards/rejected': '0.2306', 'rewards/accuracies': '0.625', 'rewards/margins': '0.2589', 'logps/chosen': '-298.4', 'logps/rejected': '-292.8', 'epoch': '2.032'}
+2026-09-30T01:30:31.399031+00:00 {'loss': '0.5179', 'grad_norm': '2.287', 'learning_rate': '5e-06', 'entropy': '1.12', 'num_tokens': '4.253e+05', 'logits/chosen': '-1.841', 'logits/rejected': '-1.789', 'mean_token_accuracy': '0.5396', 'rewards/chosen': '0.5513', 'rewards/rejected': '0.1425', 'rewards/accuracies': '1', 'rewards/margins': '0.4088', 'logps/chosen': '-397.4', 'logps/rejected': '-367.4', 'epoch': '2.048'}
+2026-09-30T01:30:51.114910+00:00  68%|██████▊   | 129/189 [45:17<21:28, 21.47s/it]
+2026-09-30T01:30:51.115395+00:00  69%|██████▉   | 130/189 [45:37<20:35, 20.95s/it]
+2026-09-30T01:30:51.115632+00:00                                                  
+2026-09-30T01:30:51.115697+00:00 
+2026-09-30T01:31:10.148728+00:00  69%|██████▉   | 130/189 [45:37<20:35, 20.95s/it]
+2026-09-30T01:31:10.149241+00:00  69%|██████▉   | 131/189 [45:56<19:41, 20.37s/it]
+2026-09-30T01:31:10.149393+00:00                                                  
+2026-09-30T01:31:10.149431+00:00 
+2026-09-30T01:31:32.153074+00:00  69%|██████▉   | 131/189 [45:56<19:41, 20.37s/it]
+2026-09-30T01:31:32.153526+00:00  70%|██████▉   | 132/189 [46:18<19:49, 20.86s/it]
+2026-09-30T01:31:32.153710+00:00                                                  
+2026-09-30T01:31:32.153741+00:00 
+2026-09-30T01:31:53.099537+00:00  70%|██████▉   | 132/189 [46:18<19:49, 20.86s/it]
+2026-09-30T01:31:53.100063+00:00  70%|███████   | 133/189 [46:39<19:29, 20.89s/it]
+2026-09-30T01:31:53.100298+00:00                                                  
+2026-09-30T01:31:53.100339+00:00 
+2026-09-30T01:32:12.506747+00:00  70%|███████   | 133/189 [46:39<19:29, 20.89s/it]
+2026-09-30T01:32:12.507281+00:00  71%|███████   | 134/189 [46:58<18:44, 20.44s/it]
+2026-09-30T01:32:12.507518+00:00                                                  
+2026-09-30T01:32:12.507562+00:00 
+2026-09-30T01:32:32.523197+00:00  71%|███████   | 134/189 [46:58<18:44, 20.44s/it]
+2026-09-30T01:32:32.523760+00:00  71%|███████▏  | 135/189 [47:18<18:17, 20.32s/it]
+2026-09-30T01:32:32.523969+00:00                                                  
+2026-09-30T01:32:32.524022+00:00 
+2026-09-30T01:32:53.864125+00:00  71%|███████▏  | 135/189 [47:18<18:17, 20.32s/it]
+2026-09-30T01:32:53.864687+00:00  72%|███████▏  | 136/189 [47:39<18:13, 20.62s/it]
+2026-09-30T01:32:53.864942+00:00                                                  
+2026-09-30T01:32:53.864998+00:00 
+2026-09-30T01:33:15.757974+00:00  72%|███████▏  | 136/189 [47:39<18:13, 20.62s/it]
+2026-09-30T01:33:15.758447+00:00  72%|███████▏  | 137/189 [48:01<18:12, 21.00s/it]
+2026-09-30T01:33:15.758623+00:00                                                  
+2026-09-30T01:33:15.758644+00:00 
+2026-09-30T01:33:41.759735+00:00  72%|███████▏  | 137/189 [48:01<18:12, 21.00s/it]
+2026-09-30T01:33:41.760164+00:00  73%|███████▎  | 138/189 [48:27<19:07, 22.50s/it]
+2026-09-30T01:33:41.760366+00:00                                                  
+2026-09-30T01:33:41.760388+00:00 
+2026-09-30T01:34:03.195840+00:00  73%|███████▎  | 138/189 [48:27<19:07, 22.50s/it]
+2026-09-30T01:34:03.196366+00:00  74%|███████▎  | 139/189 [48:49<18:29, 22.18s/it]
+2026-09-30T01:34:03.196611+00:00                                                  
+2026-09-30T01:34:03.196678+00:00 
+2026-09-30T01:34:25.558202+00:00  74%|███████▎  | 139/189 [48:49<18:29, 22.18s/it]
+2026-09-30T01:34:25.558635+00:00  74%|███████▍  | 140/189 [49:11<18:09, 22.24s/it]
+2026-09-30T01:34:25.558881+00:00                                                  
+2026-09-30T01:34:25.558905+00:00 
+2026-09-30T01:34:45.917596+00:00  74%|███████▍  | 140/189 [49:11<18:09, 22.24s/it]
+2026-09-30T01:34:45.918130+00:00  75%|███████▍  | 141/189 [49:31<17:20, 21.67s/it]
+2026-09-30T01:34:45.918372+00:00                                                  
+2026-09-30T01:34:45.918410+00:00 
+2026-09-30T01:35:10.101077+00:00  75%|███████▍  | 141/189 [49:31<17:20, 21.67s/it]
+2026-09-30T01:35:10.101523+00:00  75%|███████▌  | 142/189 [49:56<17:34, 22.43s/it]
+2026-09-30T01:35:10.101638+00:00                                                  
+2026-09-30T01:35:10.101706+00:00 
+2026-09-30T01:35:32.164094+00:00  75%|███████▌  | 142/189 [49:56<17:34, 22.43s/it]
+2026-09-30T01:35:32.164623+00:00  76%|███████▌  | 143/189 [50:18<17:06, 22.32s/it]
+2026-09-30T01:35:32.164876+00:00                                                  
+2026-09-30T01:35:32.164920+00:00 
+2026-09-30T01:35:49.200766+00:00  76%|███████▌  | 143/189 [50:18<17:06, 22.32s/it]
+2026-09-30T01:35:49.201249+00:00  76%|███████▌  | 144/189 [50:35<15:32, 20.73s/it]
+2026-09-30T01:35:49.201473+00:00                                                  
+2026-09-30T01:35:49.201514+00:00 
+2026-09-30T01:36:09.167028+00:00  76%|███████▌  | 144/189 [50:35<15:32, 20.73s/it]
+2026-09-30T01:36:09.167517+00:00  77%|███████▋  | 145/189 [50:55<15:02, 20.50s/it]
+2026-09-30T01:36:09.167810+00:00                                                  
+2026-09-30T01:36:09.167858+00:00 
+2026-09-30T01:36:31.853724+00:00  77%|███████▋  | 145/189 [50:55<15:02, 20.50s/it]
+2026-09-30T01:36:31.854255+00:00  77%|███████▋  | 146/189 [51:17<15:09, 21.16s/it]
+2026-09-30T01:36:31.854519+00:00                                                  
+2026-09-30T01:36:31.854559+00:00 
+2026-09-30T01:36:48.605849+00:00  77%|███████▋  | 146/189 [51:17<15:09, 21.16s/it]
+2026-09-30T01:36:48.606321+00:00  78%|███████▊  | 147/189 [51:34<13:53, 19.84s/it]
+2026-09-30T01:36:48.606539+00:00                                                  
+2026-09-30T01:36:48.606578+00:00 
+2026-09-30T01:37:08.474099+00:00  78%|███████▊  | 147/189 [51:34<13:53, 19.84s/it]
+2026-09-30T01:37:08.474525+00:00  78%|███████▊  | 148/189 [51:54<13:33, 19.85s/it]
+2026-09-30T01:37:08.474624+00:00                                                  
+2026-09-30T01:37:08.474643+00:00 
+2026-09-30T01:37:28.724766+00:00  78%|███████▊  | 148/189 [51:54<13:33, 19.85s/it]
+2026-09-30T01:37:28.725308+00:00  79%|███████▉  | 149/189 [52:14<13:18, 19.97s/it]
+2026-09-30T01:37:28.725568+00:00                                                  
+2026-09-30T01:37:28.725614+00:00 
+2026-09-30T01:37:52.332497+00:00  79%|███████▉  | 149/189 [52:14<13:18, 19.97s/it]
+2026-09-30T01:37:52.333010+00:00  79%|███████▉  | 150/189 [52:38<13:41, 21.06s/it]
+2026-09-30T01:37:52.333251+00:00                                                  
+2026-09-30T01:37:52.333297+00:00 
+2026-09-30T01:38:14.092245+00:00  79%|███████▉  | 150/189 [52:38<13:41, 21.06s/it]
+2026-09-30T01:38:14.092786+00:00  80%|███████▉  | 151/189 [53:00<13:28, 21.27s/it]
+2026-09-30T01:38:14.092877+00:00                                                  
+2026-09-30T01:38:14.092904+00:00 {'loss': '0.5235', 'grad_norm': '2.355', 'learning_rate': '5e-06', 'entropy': '1.151', 'num_tokens': '4.284e+05', 'logits/chosen': '-2.207', 'logits/rejected': '-2.1', 'mean_token_accuracy': '0.5807', 'rewards/chosen': '0.497', 'rewards/rejected': '0.1195', 'rewards/accuracies': '1', 'rewards/margins': '0.3775', 'logps/chosen': '-246.5', 'logps/rejected': '-263.8', 'epoch': '2.063'}
+2026-09-30T01:38:14.092928+00:00 {'loss': '0.5349', 'grad_norm': '2.28', 'learning_rate': '5e-06', 'entropy': '1.246', 'num_tokens': '4.311e+05', 'logits/chosen': '-2.058', 'logits/rejected': '-1.998', 'mean_token_accuracy': '0.508', 'rewards/chosen': '0.4646', 'rewards/rejected': '0.1113', 'rewards/accuracies': '1', 'rewards/margins': '0.3532', 'logps/chosen': '-320.1', 'logps/rejected': '-328', 'epoch': '2.079'}
+2026-09-30T01:38:14.092961+00:00 {'loss': '0.5108', 'grad_norm': '2.318', 'learning_rate': '5e-06', 'entropy': '1.007', 'num_tokens': '4.346e+05', 'logits/chosen': '-2.291', 'logits/rejected': '-2.055', 'mean_token_accuracy': '0.5831', 'rewards/chosen': '0.6375', 'rewards/rejected': '0.2084', 'rewards/accuracies': '1', 'rewards/margins': '0.4291', 'logps/chosen': '-249.6', 'logps/rejected': '-259', 'epoch': '2.095'}
+2026-09-30T01:38:14.092980+00:00 {'loss': '0.6032', 'grad_norm': '2.351', 'learning_rate': '5e-06', 'entropy': '1.048', 'num_tokens': '4.38e+05', 'logits/chosen': '-2.111', 'logits/rejected': '-2.12', 'mean_token_accuracy': '0.5581', 'rewards/chosen': '0.5474', 'rewards/rejected': '0.3553', 'rewards/accuracies': '0.875', 'rewards/margins': '0.1921', 'logps/chosen': '-283', 'logps/rejected': '-286.2', 'epoch': '2.111'}
+2026-09-30T01:38:14.092997+00:00 {'loss': '0.6068', 'grad_norm': '2.048', 'learning_rate': '5e-06', 'entropy': '1.102', 'num_tokens': '4.408e+05', 'logits/chosen': '-2.176', 'logits/rejected': '-2.123', 'mean_token_accuracy': '0.5538', 'rewards/chosen': '0.4748', 'rewards/rejected': '0.2724', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2024', 'logps/chosen': '-277.3', 'logps/rejected': '-286.5', 'epoch': '2.127'}
+2026-09-30T01:38:14.093013+00:00 {'loss': '0.5393', 'grad_norm': '2.256', 'learning_rate': '5e-06', 'entropy': '1.194', 'num_tokens': '4.437e+05', 'logits/chosen': '-2.118', 'logits/rejected': '-1.872', 'mean_token_accuracy': '0.53', 'rewards/chosen': '0.5941', 'rewards/rejected': '0.245', 'rewards/accuracies': '1', 'rewards/margins': '0.3491', 'logps/chosen': '-308.9', 'logps/rejected': '-317.9', 'epoch': '2.143'}
+2026-09-30T01:38:14.093032+00:00 {'loss': '0.5827', 'grad_norm': '2.358', 'learning_rate': '5e-06', 'entropy': '1.268', 'num_tokens': '4.469e+05', 'logits/chosen': '-1.91', 'logits/rejected': '-2.005', 'mean_token_accuracy': '0.5227', 'rewards/chosen': '0.4648', 'rewards/rejected': '0.22', 'rewards/accuracies': '0.75', 'rewards/margins': '0.2447', 'logps/chosen': '-322.5', 'logps/rejected': '-319.9', 'epoch': '2.159'}
+2026-09-30T01:38:14.093048+00:00 {'loss': '0.5198', 'grad_norm': '2.533', 'learning_rate': '5e-06', 'entropy': '1.324', 'num_tokens': '4.504e+05', 'logits/chosen': '-1.998', 'logits/rejected': '-1.966', 'mean_token_accuracy': '0.5124', 'rewards/chosen': '0.6051', 'rewards/rejected': '0.2203', 'rewards/accuracies': '1', 'rewards/margins': '0.3848', 'logps/chosen': '-325.5', 'logps/rejected': '-319', 'epoch': '2.175'}
+2026-09-30T01:38:14.093066+00:00 {'loss': '0.5607', 'grad_norm': '2.409', 'learning_rate': '5e-06', 'entropy': '1.209', 'num_tokens': '4.549e+05', 'logits/chosen': '-2.096', 'logits/rejected': '-2.068', 'mean_token_accuracy': '0.5273', 'rewards/chosen': '0.5399', 'rewards/rejected': '0.2366', 'rewards/accuracies': '0.875', 'rewards/margins': '0.3034', 'logps/chosen': '-363.6', 'logps/rejected': '-382.3', 'epoch': '2.19'}
+2026-09-30T01:38:14.093081+00:00 {'loss': '0.4624', 'grad_norm': '2.4', 'learning_rate': '5e-06', 'entropy': '1.317', 'num_tokens': '4.583e+05', 'logits/chosen': '-2.101', 'logits/rejected': '-2.049', 'mean_token_accuracy': '0.5135', 'rewards/chosen': '0.6956', 'rewards/rejected': '0.1482', 'rewards/accuracies': '1', 'rewards/margins': '0.5473', 'logps/chosen': '-282.1', 'logps/rejected': '-292.1', 'epoch': '2.206'}
+2026-09-30T01:38:14.093095+00:00 {'loss': '0.5291', 'grad_norm': '2.565', 'learning_rate': '5e-06', 'entropy': '1.131', 'num_tokens': '4.62e+05', 'logits/chosen': '-2.258', 'logits/rejected': '-2.236', 'mean_token_accuracy': '0.5298', 'rewards/chosen': '0.5855', 'rewards/rejected': '0.2163', 'rewards/accuracies': '1', 'rewards/margins': '0.3691', 'logps/chosen': '-312.8', 'logps/rejected': '-335.1', 'epoch': '2.222'}
+2026-09-30T01:38:14.093114+00:00 {'loss': '0.5494', 'grad_norm': '2.111', 'learning_rate': '5e-06', 'entropy': '1.111', 'num_tokens': '4.651e+05', 'logits/chosen': '-2.265', 'logits/rejected': '-2.06', 'mean_token_accuracy': '0.5367', 'rewards/chosen': '0.5009', 'rewards/rejected': '0.1798', 'rewards/accuracies': '1', 'rewards/margins': '0.3211', 'logps/chosen': '-246.7', 'logps/rejected': '-270.8', 'epoch': '2.238'}
+2026-09-30T01:38:14.093135+00:00 {'loss': '0.5065', 'grad_norm': '2.307', 'learning_rate': '5e-06', 'entropy': '1.193', 'num_tokens': '4.693e+05', 'logits/chosen': '-2.112', 'logits/rejected': '-1.943', 'mean_token_accuracy': '0.5389', 'rewards/chosen': '0.6463', 'rewards/rejected': '0.2189', 'rewards/accuracies': '1', 'rewards/margins': '0.4275', 'logps/chosen': '-357.7', 'logps/rejected': '-355.5', 'epoch': '2.254'}
+2026-09-30T01:38:14.093149+00:00 {'loss': '0.5607', 'grad_norm': '2.399', 'learning_rate': '5e-06', 'entropy': '1.247', 'num_tokens': '4.728e+05', 'logits/chosen': '-2.093', 'logits/rejected': '-1.933', 'mean_token_accuracy': '0.5367', 'rewards/chosen': '0.585', 'rewards/rejected': '0.293', 'rewards/accuracies': '1', 'rewards/margins': '0.292', 'logps/chosen': '-352', 'logps/rejected': '-346.4', 'epoch': '2.27'}
+2026-09-30T01:38:14.093168+00:00 {'loss': '0.5016', 'grad_norm': '2.216', 'learning_rate': '5e-06', 'entropy': '1.174', 'num_tokens': '4.751e+05', 'logits/chosen': '-2.055', 'logits/rejected': '-2.08', 'mean_token_accuracy': '0.5167', 'rewards/chosen': '0.6138', 'rewards/rejected': '0.1728', 'rewards/accuracies': '1', 'rewards/margins': '0.441', 'logps/chosen': '-259.1', 'logps/rejected': '-250.5', 'epoch': '2.286'}
+2026-09-30T01:38:14.093183+00:00 {'loss': '0.5338', 'grad_norm': '2.646', 'learning_rate': '5e-06', 'entropy': '1.106', 'num_tokens': '4.781e+05', 'logits/chosen': '-2.112', 'logits/rejected': '-2.065', 'mean_token_accuracy': '0.5724', 'rewards/chosen': '0.5507', 'rewards/rejected': '0.1825', 'rewards/accuracies': '0.875', 'rewards/margins': '0.3682', 'logps/chosen': '-305.9', 'logps/rejected': '-316.6', 'epoch': '2.302'}
+2026-09-30T01:38:14.093198+00:00 {'loss': '0.5418', 'grad_norm': '2.454', 'learning_rate': '5e-06', 'entropy': '1.052', 'num_tokens': '4.82e+05', 'logits/chosen': '-2.222', 'logits/rejected': '-2.019', 'mean_token_accuracy': '0.5798', 'rewards/chosen': '0.5775', 'rewards/rejected': '0.2259', 'rewards/accuracies': '0.875', 'rewards/margins': '0.3515', 'logps/chosen': '-292.6', 'logps/rejected': '-303.5', 'epoch': '2.317'}
+2026-09-30T01:38:14.093213+00:00 {'loss': '0.5007', 'grad_norm': '2.257', 'learning_rate': '5e-06', 'entropy': '1.24', 'num_tokens': '4.843e+05', 'logits/chosen': '-1.98', 'logits/rejected': '-1.884', 'mean_token_accuracy': '0.4979', 'rewards/chosen': '0.5345', 'rewards/rejected': '0.1008', 'rewards/accuracies': '1', 'rewards/margins': '0.4337', 'logps/chosen': '-237.6', 'logps/rejected': '-255.4', 'epoch': '2.333'}
+2026-09-30T01:38:14.093233+00:00 {'loss': '0.5606', 'grad_norm': '2.386', 'learning_rate': '5e-06', 'entropy': '1.26', 'num_tokens': '4.873e+05', 'logits/chosen': '-2.066', 'logits/rejected': '-1.88', 'mean_token_accuracy': '0.5218', 'rewards/chosen': '0.5122', 'rewards/rejected': '0.1912', 'rewards/accuracies': '0.625', 'rewards/margins': '0.321', 'logps/chosen': '-253.3', 'logps/rejected': '-249.3', 'epoch': '2.349'}
+2026-09-30T01:38:14.093248+00:00 {'loss': '0.4851', 'grad_norm': '2.392', 'learning_rate': '5e-06', 'entropy': '1.027', 'num_tokens': '4.904e+05', 'logits/chosen': '-2.286', 'logits/rejected': '-2.097', 'mean_token_accuracy': '0.5537', 'rewards/chosen': '0.7729', 'rewards/rejected': '0.257', 'rewards/accuracies': '1', 'rewards/margins': '0.516', 'logps/chosen': '-259', 'logps/rejected': '-253.9', 'epoch': '2.365'}
+2026-09-30T01:38:14.093263+00:00 {'loss': '0.5835', 'grad_norm': '2.109', 'learning_rate': '5e-06', 'entropy': '1.162', 'num_tokens': '4.942e+05', 'logits/chosen': '-2', 'logits/rejected': '-1.896', 'mean_token_accuracy': '0.5324', 'rewards/chosen': '0.4785', 'rewards/rejected': '0.24', 'rewards/accuracies': '1', 'rewards/margins': '0.2385', 'logps/chosen': '-300.3', 'logps/rejected': '-308.2', 'epoch': '2.381'}
+2026-09-30T01:38:14.093297+00:00 {'loss': '0.5765', 'grad_norm': '2.293', 'learning_rate': '5e-06', 'entropy': '1.18', 'num_tokens': '4.976e+05', 'logits/chosen': '-1.962', 'logits/rejected': '-1.878', 'mean_token_accuracy': '0.5185', 'rewards/chosen': '0.6076', 'rewards/rejected': '0.3453', 'rewards/accuracies': '0.875', 'rewards/margins': '0.2623', 'logps/chosen': '-262.4', 'logps/rejected': '-262.1', 'epoch': '2.397'}
+2026-09-30T01:38:34.711208+00:00  80%|███████▉  | 151/189 [53:00<13:28, 21.27s/it]
+2026-09-30T01:38:34.711689+00:00  80%|████████  | 152/189 [53:20<12:59, 21.07s/it]
+2026-09-30T01:38:34.711925+00:00                                                  
+2026-09-30T01:38:34.711963+00:00 
+2026-09-30T01:38:55.587074+00:00  80%|████████  | 152/189 [53:20<12:59, 21.07s/it]
+2026-09-30T01:38:55.587515+00:00  81%|████████  | 153/189 [53:41<12:36, 21.01s/it]
+2026-09-30T01:38:55.587728+00:00                                                  
+2026-09-30T01:38:55.587753+00:00 
+2026-09-30T01:39:19.384669+00:00  81%|████████  | 153/189 [53:41<12:36, 21.01s/it]
+2026-09-30T01:39:19.385133+00:00  81%|████████▏ | 154/189 [54:05<12:44, 21.85s/it]
+2026-09-30T01:39:19.385317+00:00                                                  
+2026-09-30T01:39:19.385339+00:00 
+2026-09-30T01:39:42.529955+00:00  81%|████████▏ | 154/189 [54:05<12:44, 21.85s/it]
+2026-09-30T01:39:42.530453+00:00  82%|████████▏ | 155/189 [54:28<12:36, 22.24s/it]
+2026-09-30T01:39:42.530695+00:00                                                  
+2026-09-30T01:39:42.530740+00:00 
+2026-09-30T01:40:03.837807+00:00  82%|████████▏ | 155/189 [54:28<12:36, 22.24s/it]
+2026-09-30T01:40:03.838292+00:00  83%|████████▎ | 156/189 [54:49<12:04, 21.96s/it]
+2026-09-30T01:40:03.838516+00:00                                                  
+2026-09-30T01:40:03.838554+00:00 
+2026-09-30T01:40:25.218090+00:00  83%|████████▎ | 156/189 [54:49<12:04, 21.96s/it]
+2026-09-30T01:40:25.218591+00:00  83%|████████▎ | 157/189 [55:11<11:37, 21.79s/it]
+2026-09-30T01:40:25.218853+00:00                                                  
+2026-09-30T01:40:25.218900+00:00 
+2026-09-30T01:40:48.492079+00:00  83%|████████▎ | 157/189 [55:11<11:37, 21.79s/it]
+2026-09-30T01:40:48.492569+00:00  84%|████████▎ | 158/189 [55:34<11:29, 22.23s/it]
+2026-09-30T01:40:48.492894+00:00                                                  
+2026-09-30T01:40:48.492951+00:00 
+2026-09-30T01:41:09.325216+00:00  84%|████████▎ | 158/189 [55:34<11:29, 22.23s/it]
+2026-09-30T01:41:09.325734+00:00  84%|████████▍ | 159/189 [55:55<10:54, 21.81s/it]
+2026-09-30T01:41:09.325914+00:00                                                  
+2026-09-30T01:41:09.325935+00:00 
+2026-09-30T01:41:28.387013+00:00  84%|████████▍ | 159/189 [55:55<10:54, 21.81s/it]
+2026-09-30T01:41:28.387492+00:00  85%|████████▍ | 160/189 [56:14<10:08, 20.99s/it]
+2026-09-30T01:41:28.387695+00:00                                                  
+2026-09-30T01:41:28.387728+00:00 
+2026-09-30T01:41:49.827135+00:00  85%|████████▍ | 160/189 [56:14<10:08, 20.99s/it]
+2026-09-30T01:41:49.827607+00:00  85%|████████▌ | 161/189 [56:35<09:51, 21.12s/it]
+2026-09-30T01:41:49.827841+00:00                                                  
+2026-09-30T01:41:49.827867+00:00 
+2026-09-30T01:42:12.030497+00:00  85%|████████▌ | 161/189 [56:35<09:51, 21.12s/it]
+2026-09-30T01:42:12.031040+00:00  86%|████████▌ | 162/189 [56:58<09:39, 21.45s/it]
+2026-09-30T01:42:12.031309+00:00                                                  
+2026-09-30T01:42:12.031355+00:00 
+2026-09-30T01:42:28.918705+00:00  86%|████████▌ | 162/189 [56:58<09:39, 21.45s/it]
+2026-09-30T01:42:28.919221+00:00  86%|████████▌ | 163/189 [57:14<08:42, 20.08s/it]
+2026-09-30T01:42:28.919467+00:00                                                  
+2026-09-30T01:42:28.919511+00:00 
+2026-09-30T01:42:50.211967+00:00  86%|████████▌ | 163/189 [57:14<08:42, 20.08s/it]
+2026-09-30T01:42:50.212699+00:00  87%|████████▋ | 164/189 [57:36<08:31, 20.44s/it]
+2026-09-30T01:42:50.212909+00:00                                                  
+2026-09-30T01:42:50.212956+00:00 
+2026-09-30T01:43:10.848834+00:00  87%|████████▋ | 164/189 [57:36<08:31, 20.44s/it]
+2026-09-30T01:43:10.849292+00:00  87%|████████▋ | 165/189 [57:56<08:12, 20.50s/it]
+2026-09-30T01:43:10.849514+00:00                                                  
+2026-09-30T01:43:10.849558+00:00 
+2026-09-30T01:43:32.356473+00:00  87%|████████▋ | 165/189 [57:56<08:12, 20.50s/it]
+2026-09-30T01:43:32.356994+00:00  88%|████████▊ | 166/189 [58:18<07:58, 20.80s/it]
+2026-09-30T01:43:32.357216+00:00                                                  
+2026-09-30T01:43:32.357262+00:00 
+2026-09-30T01:43:59.160468+00:00  88%|████████▊ | 166/189 [58:18<07:58, 20.80s/it]
+2026-09-30T01:43:59.160987+00:00  88%|████████▊ | 167/189 [58:45<08:17, 22.60s/it]
+2026-09-30T01:43:59.161056+00:00                                                  
+2026-09-30T01:43:59.161073+00:00 
+2026-09-30T01:44:20.267837+00:00  88%|████████▊ | 167/189 [58:45<08:17, 22.60s/it]
+2026-09-30T01:44:20.268333+00:00  89%|████████▉ | 168/189 [59:06<07:45, 22.15s/it]
+2026-09-30T01:44:20.268576+00:00                                                  
+2026-09-30T01:44:20.268622+00:00 
+2026-09-30T01:44:38.246191+00:00  89%|████████▉ | 168/189 [59:06<07:45, 22.15s/it]
+2026-09-30T01:44:38.246692+00:00  89%|████████▉ | 169/189 [59:24<06:58, 20.90s/it]
+2026-09-30T01:44:38.246925+00:00                                                  
+2026-09-30T01:44:38.246971+00:00 
+2026-09-30T01:45:00.755360+00:00  89%|████████▉ | 169/189 [59:24<06:58, 20.90s/it]
+2026-09-30T01:45:00.755827+00:00  90%|████████▉ | 170/189 [59:46<06:46, 21.38s/it]
+2026-09-30T01:45:00.755900+00:00                                                  
+2026-09-30T01:45:00.755916+00:00 
+2026-09-30T01:45:20.123710+00:00  90%|████████▉ | 170/189 [59:46<06:46, 21.38s/it]
+2026-09-30T01:45:20.124223+00:00  90%|█████████ | 171/189 [1:00:06<06:14, 20.78s/it]
+2026-09-30T01:45:20.124375+00:00                                                    
+2026-09-30T01:45:20.124394+00:00 
+2026-09-30T01:45:40.781586+00:00  90%|█████████ | 171/189 [1:00:06<06:14, 20.78s/it]
+2026-09-30T01:45:40.782083+00:00  91%|█████████ | 172/189 [1:00:26<05:52, 20.74s/it]
+2026-09-30T01:45:40.782319+00:00                                                    
+2026-09-30T01:45:40.782362+00:00 
+2026-09-30T01:46:04.112475+00:00  91%|█████████ | 172/189 [1:00:26<05:52, 20.74s/it]
+2026-09-30T01:46:04.113027+00:00  92%|█████████▏| 173/189 [1:00:50<05:44, 21.52s/it]
+2026-09-30T01:46:04.113117+00:00                                                    
+2026-09-30T01:46:04.113143+00:00 {'loss': '0.4836', 'grad_norm': '2.187', 'learning_rate': '5e-06', 'entropy': '1.117', 'num_tokens': '5.007e+05', 'logits/chosen': '-2.319', 'logits/rejected': '-2.147', 'mean_token_accuracy': '0.5433', 'rewards/chosen': '0.6867', 'rewards/rejected': '0.1934', 'rewards/accuracies': '0.875', 'rewards/margins': '0.4933', 'logps/chosen': '-229.1', 'logps/rejected': '-249.2', 'epoch': '2.413'}
+2026-09-30T01:46:04.113168+00:00 {'loss': '0.5311', 'grad_norm': '2.467', 'learning_rate': '5e-06', 'entropy': '1.232', 'num_tokens': '5.037e+05', 'logits/chosen': '-2.146', 'logits/rejected': '-2.04', 'mean_token_accuracy': '0.5177', 'rewards/chosen': '0.5777', 'rewards/rejected': '0.2096', 'rewards/accuracies': '1', 'rewards/margins': '0.3681', 'logps/chosen': '-265.8', 'logps/rejected': '-282.8', 'epoch': '2.429'}
+2026-09-30T01:46:04.113190+00:00 {'loss': '0.4579', 'grad_norm': '2.453', 'learning_rate': '5e-06', 'entropy': '1.12', 'num_tokens': '5.075e+05', 'logits/chosen': '-2.272', 'logits/rejected': '-2.031', 'mean_token_accuracy': '0.5332', 'rewards/chosen': '0.8392', 'rewards/rejected': '0.2726', 'rewards/accuracies': '1', 'rewards/margins': '0.5666', 'logps/chosen': '-274', 'logps/rejected': '-277.3', 'epoch': '2.444'}
+2026-09-30T01:46:04.113219+00:00 {'loss': '0.5633', 'grad_norm': '2.249', 'learning_rate': '5e-06', 'entropy': '1.086', 'num_tokens': '5.112e+05', 'logits/chosen': '-2.224', 'logits/rejected': '-2.251', 'mean_token_accuracy': '0.5715', 'rewards/chosen': '0.565', 'rewards/rejected': '0.2681', 'rewards/accuracies': '1', 'rewards/margins': '0.2969', 'logps/chosen': '-292.5', 'logps/rejected': '-287', 'epoch': '2.46'}
+2026-09-30T01:46:04.113238+00:00 {'loss': '0.4775', 'grad_norm': '2.231', 'learning_rate': '5e-06', 'entropy': '1.26', 'num_tokens': '5.145e+05', 'logits/chosen': '-2.186', 'logits/rejected': '-2.076', 'mean_token_accuracy': '0.5108', 'rewards/chosen': '0.7947', 'rewards/rejected': '0.2734', 'rewards/accuracies': '0.875', 'rewards/margins': '0.5213', 'logps/chosen': '-290.8', 'logps/rejected': '-305.9', 'epoch': '2.476'}
+2026-09-30T01:46:04.113254+00:00 {'loss': '0.5372', 'grad_norm': '2.281', 'learning_rate': '5e-06', 'entropy': '1.191', 'num_tokens': '5.177e+05', 'logits/chosen': '-2.242', 'logits/rejected': '-2.017', 'mean_token_accuracy': '0.5472', 'rewards/chosen': '0.481', 'rewards/rejected': '0.1331', 'rewards/accuracies': '1', 'rewards/margins': '0.3478', 'logps/chosen': '-249', 'logps/rejected': '-266.5', 'epoch': '2.492'}
+2026-09-30T01:46:04.113274+00:00 {'loss': '0.5059', 'grad_norm': '2.335', 'learning_rate': '5e-06', 'entropy': '1.141', 'num_tokens': '5.216e+05', 'logits/chosen': '-2.036', 'logits/rejected': '-1.989', 'mean_token_accuracy': '0.5531', 'rewards/chosen': '0.6249', 'rewards/rejected': '0.1944', 'rewards/accuracies': '1', 'rewards/margins': '0.4305', 'logps/chosen': '-260.7', 'logps/rejected': '-270', 'epoch': '2.508'}
+2026-09-30T01:46:04.113290+00:00 {'loss': '0.4773', 'grad_norm': '2.43', 'learning_rate': '5e-06', 'entropy': '1.289', 'num_tokens': '5.248e+05', 'logits/chosen': '-2.171', 'logits/rejected': '-2.042', 'mean_token_accuracy': '0.5196', 'rewards/chosen': '0.7251', 'rewards/rejected': '0.2066', 'rewards/accuracies': '1', 'rewards/margins': '0.5186', 'logps/chosen': '-253.3', 'logps/rejected': '-257.2', 'epoch': '2.524'}
+2026-09-30T01:46:04.113307+00:00 {'loss': '0.5086', 'grad_norm': '2.311', 'learning_rate': '5e-06', 'entropy': '1.306', 'num_tokens': '5.275e+05', 'logits/chosen': '-1.838', 'logits/rejected': '-1.8', 'mean_token_accuracy': '0.4963', 'rewards/chosen': '0.6546', 'rewards/rejected': '0.188', 'rewards/accuracies': '0.875', 'rewards/margins': '0.4666', 'logps/chosen': '-293', 'logps/rejected': '-285.3', 'epoch': '2.54'}
+2026-09-30T01:46:04.113322+00:00 {'loss': '0.5483', 'grad_norm': '2.275', 'learning_rate': '5e-06', 'entropy': '1.347', 'num_tokens': '5.309e+05', 'logits/chosen': '-1.857', 'logits/rejected': '-1.931', 'mean_token_accuracy': '0.5269', 'rewards/chosen': '0.5232', 'rewards/rejected': '0.1954', 'rewards/accuracies': '1', 'rewards/margins': '0.3278', 'logps/chosen': '-330.4', 'logps/rejected': '-348.5', 'epoch': '2.556'}
+2026-09-30T01:46:04.113337+00:00 {'loss': '0.5259', 'grad_norm': '2.353', 'learning_rate': '5e-06', 'entropy': '1.146', 'num_tokens': '5.344e+05', 'logits/chosen': '-1.927', 'logits/rejected': '-1.844', 'mean_token_accuracy': '0.5614', 'rewards/chosen': '0.6159', 'rewards/rejected': '0.2128', 'rewards/accuracies': '0.875', 'rewards/margins': '0.403', 'logps/chosen': '-372.9', 'logps/rejected': '-362.8', 'epoch': '2.571'}
+2026-09-30T01:46:04.113355+00:00 {'loss': '0.4344', 'grad_norm': '2.442', 'learning_rate': '5e-06', 'entropy': '1.06', 'num_tokens': '5.366e+05', 'logits/chosen': '-2.25', 'logits/rejected': '-2.066', 'mean_token_accuracy': '0.5328', 'rewards/chosen': '0.7111', 'rewards/rejected': '0.06176', 'rewards/accuracies': '1', 'rewards/margins': '0.6493', 'logps/chosen': '-226', 'logps/rejected': '-240.3', 'epoch': '2.587'}
+2026-09-30T01:46:04.113370+00:00 {'loss': '0.4329', 'grad_norm': '2.463', 'learning_rate': '5e-06', 'entropy': '1.414', 'num_tokens': '5.398e+05', 'logits/chosen': '-1.883', 'logits/rejected': '-1.843', 'mean_token_accuracy': '0.4941', 'rewards/chosen': '0.8508', 'rewards/rejected': '0.225', 'rewards/accuracies': '1', 'rewards/margins': '0.6258', 'logps/chosen': '-302.4', 'logps/rejected': '-322.3', 'epoch': '2.603'}
+2026-09-30T01:46:04.113391+00:00 {'loss': '0.4324', 'grad_norm': '2.174', 'learning_rate': '5e-06', 'entropy': '1.101', 'num_tokens': '5.429e+05', 'logits/chosen': '-2.203', 'logits/rejected': '-2.126', 'mean_token_accuracy': '0.5699', 'rewards/chosen': '0.9032', 'rewards/rejected': '0.2535', 'rewards/accuracies': '1', 'rewards/margins': '0.6497', 'logps/chosen': '-266.4', 'logps/rejected': '-280.6', 'epoch': '2.619'}
+2026-09-30T01:46:04.113410+00:00 {'loss': '0.5151', 'grad_norm': '2.428', 'learning_rate': '5e-06', 'entropy': '1.128', 'num_tokens': '5.464e+05', 'logits/chosen': '-2.257', 'logits/rejected': '-2.08', 'mean_token_accuracy': '0.5698', 'rewards/chosen': '0.6204', 'rewards/rejected': '0.2122', 'rewards/accuracies': '1', 'rewards/margins': '0.4082', 'logps/chosen': '-307.1', 'logps/rejected': '-318.4', 'epoch': '2.635'}
+2026-09-30T01:46:04.113424+00:00 {'loss': '0.5121', 'grad_norm': '2.432', 'learning_rate': '5e-06', 'entropy': '1.285', 'num_tokens': '5.508e+05', 'logits/chosen': '-1.896', 'logits/rejected': '-1.806', 'mean_token_accuracy': '0.5519', 'rewards/chosen': '0.6191', 'rewards/rejected': '0.1984', 'rewards/accuracies': '1', 'rewards/margins': '0.4207', 'logps/chosen': '-453.1', 'logps/rejected': '-436.9', 'epoch': '2.651'}
+2026-09-30T01:46:04.113439+00:00 {'loss': '0.4193', 'grad_norm': '2.4', 'learning_rate': '5e-06', 'entropy': '1.175', 'num_tokens': '5.541e+05', 'logits/chosen': '-2.269', 'logits/rejected': '-2', 'mean_token_accuracy': '0.5199', 'rewards/chosen': '0.9324', 'rewards/rejected': '0.2243', 'rewards/accuracies': '1', 'rewards/margins': '0.7081', 'logps/chosen': '-304.9', 'logps/rejected': '-302.4', 'epoch': '2.667'}
+2026-09-30T01:46:04.113455+00:00 {'loss': '0.494', 'grad_norm': '2.475', 'learning_rate': '5e-06', 'entropy': '1.139', 'num_tokens': '5.566e+05', 'logits/chosen': '-2.271', 'logits/rejected': '-2.027', 'mean_token_accuracy': '0.5613', 'rewards/chosen': '0.7102', 'rewards/rejected': '0.252', 'rewards/accuracies': '1', 'rewards/margins': '0.4582', 'logps/chosen': '-233.3', 'logps/rejected': '-254.3', 'epoch': '2.683'}
+2026-09-30T01:46:04.113484+00:00 {'loss': '0.4889', 'grad_norm': '2.145', 'learning_rate': '5e-06', 'entropy': '1.337', 'num_tokens': '5.601e+05', 'logits/chosen': '-2.145', 'logits/rejected': '-2.029', 'mean_token_accuracy': '0.5093', 'rewards/chosen': '0.7077', 'rewards/rejected': '0.2339', 'rewards/accuracies': '1', 'rewards/margins': '0.4738', 'logps/chosen': '-304', 'logps/rejected': '-315', 'epoch': '2.698'}
+2026-09-30T01:46:04.113500+00:00 {'loss': '0.4315', 'grad_norm': '2.646', 'learning_rate': '5e-06', 'entropy': '1.153', 'num_tokens': '5.63e+05', 'logits/chosen': '-2.137', 'logits/rejected': '-1.961', 'mean_token_accuracy': '0.5682', 'rewards/chosen': '0.7144', 'rewards/rejected': '0.08607', 'rewards/accuracies': '1', 'rewards/margins': '0.6283', 'logps/chosen': '-299.2', 'logps/rejected': '-312.6', 'epoch': '2.714'}
+2026-09-30T01:46:04.113514+00:00 {'loss': '0.4154', 'grad_norm': '2.281', 'learning_rate': '5e-06', 'entropy': '1.124', 'num_tokens': '5.661e+05', 'logits/chosen': '-2.1', 'logits/rejected': '-2.051', 'mean_token_accuracy': '0.5296', 'rewards/chosen': '0.9751', 'rewards/rejected': '0.2423', 'rewards/accuracies': '1', 'rewards/margins': '0.7328', 'logps/chosen': '-276.8', 'logps/rejected': '-279.5', 'epoch': '2.73'}
+2026-09-30T01:46:04.113549+00:00 {'loss': '0.5093', 'grad_norm': '2.157', 'learning_rate': '5e-06', 'entropy': '1.371', 'num_tokens': '5.7e+05', 'logits/chosen': '-1.972', 'logits/rejected': '-1.912', 'mean_token_accuracy': '0.4768', 'rewards/chosen': '0.5912', 'rewards/rejected': '0.1699', 'rewards/accuracies': '1', 'rewards/margins': '0.4212', 'logps/chosen': '-338.8', 'logps/rejected': '-330.8', 'epoch': '2.746'}
+2026-09-30T01:46:26.002073+00:00  92%|█████████▏| 173/189 [1:00:50<05:44, 21.52s/it]
+2026-09-30T01:46:26.002495+00:00  92%|█████████▏| 174/189 [1:01:12<05:24, 21.63s/it]
+2026-09-30T01:46:26.002548+00:00                                                    
+2026-09-30T01:46:26.002564+00:00 
+2026-09-30T01:46:49.195940+00:00  92%|█████████▏| 174/189 [1:01:12<05:24, 21.63s/it]
+2026-09-30T01:46:49.196440+00:00  93%|█████████▎| 175/189 [1:01:35<05:09, 22.10s/it]
+2026-09-30T01:46:49.196681+00:00                                                    
+2026-09-30T01:46:49.196723+00:00 
+2026-09-30T01:47:09.409956+00:00  93%|█████████▎| 175/189 [1:01:35<05:09, 22.10s/it]
+2026-09-30T01:47:09.410452+00:00  93%|█████████▎| 176/189 [1:01:55<04:39, 21.53s/it]
+2026-09-30T01:47:09.410546+00:00                                                    
+2026-09-30T01:47:09.410565+00:00 
+2026-09-30T01:47:27.099833+00:00  93%|█████████▎| 176/189 [1:01:55<04:39, 21.53s/it]
+2026-09-30T01:47:27.100276+00:00  94%|█████████▎| 177/189 [1:02:13<04:04, 20.38s/it]
+2026-09-30T01:47:27.100436+00:00                                                    
+2026-09-30T01:47:27.100456+00:00 
+2026-09-30T01:47:53.399198+00:00  94%|█████████▎| 177/189 [1:02:13<04:04, 20.38s/it]
+2026-09-30T01:47:53.399600+00:00  94%|█████████▍| 178/189 [1:02:39<04:03, 22.16s/it]
+2026-09-30T01:47:53.399737+00:00                                                    
+2026-09-30T01:47:53.399760+00:00 
+2026-09-30T01:48:15.375676+00:00  94%|█████████▍| 178/189 [1:02:39<04:03, 22.16s/it]
+2026-09-30T01:48:15.376094+00:00  95%|█████████▍| 179/189 [1:03:01<03:41, 22.10s/it]
+2026-09-30T01:48:15.376149+00:00                                                    
+2026-09-30T01:48:15.376164+00:00 
+2026-09-30T01:48:35.228427+00:00  95%|█████████▍| 179/189 [1:03:01<03:41, 22.10s/it]
+2026-09-30T01:48:35.228857+00:00  95%|█████████▌| 180/189 [1:03:21<03:12, 21.43s/it]
+2026-09-30T01:48:35.228973+00:00                                                    
+2026-09-30T01:48:35.228996+00:00 
+2026-09-30T01:48:57.598748+00:00  95%|█████████▌| 180/189 [1:03:21<03:12, 21.43s/it]
+2026-09-30T01:48:57.599158+00:00  96%|█████████▌| 181/189 [1:03:43<02:53, 21.71s/it]
+2026-09-30T01:48:57.599214+00:00                                                    
+2026-09-30T01:48:57.599229+00:00 
+2026-09-30T01:49:17.038874+00:00  96%|█████████▌| 181/189 [1:03:43<02:53, 21.71s/it]
+2026-09-30T01:49:17.039355+00:00  96%|█████████▋| 182/189 [1:04:03<02:27, 21.03s/it]
+2026-09-30T01:49:17.039586+00:00                                                    
+2026-09-30T01:49:17.039633+00:00 
+2026-09-30T01:49:36.797056+00:00  96%|█████████▋| 182/189 [1:04:03<02:27, 21.03s/it]
+2026-09-30T01:49:36.797687+00:00  97%|█████████▋| 183/189 [1:04:22<02:03, 20.65s/it]
+2026-09-30T01:49:36.797956+00:00                                                    
+2026-09-30T01:49:36.798001+00:00 
+2026-09-30T01:50:00.948434+00:00  97%|█████████▋| 183/189 [1:04:22<02:03, 20.65s/it]
+2026-09-30T01:50:00.948978+00:00  97%|█████████▋| 184/189 [1:04:46<01:48, 21.70s/it]
+2026-09-30T01:50:00.949212+00:00                                                    
+2026-09-30T01:50:00.949255+00:00 
+2026-09-30T01:50:21.412765+00:00  97%|█████████▋| 184/189 [1:04:46<01:48, 21.70s/it]
+2026-09-30T01:50:21.413252+00:00  98%|█████████▊| 185/189 [1:05:07<01:25, 21.33s/it]
+2026-09-30T01:50:21.413488+00:00                                                    
+2026-09-30T01:50:21.413531+00:00 
+2026-09-30T01:50:40.576071+00:00  98%|█████████▊| 185/189 [1:05:07<01:25, 21.33s/it]
+2026-09-30T01:50:40.576500+00:00  98%|█████████▊| 186/189 [1:05:26<01:02, 20.68s/it]
+2026-09-30T01:50:40.576619+00:00                                                    
+2026-09-30T01:50:40.576636+00:00 
+2026-09-30T01:51:02.252205+00:00  98%|█████████▊| 186/189 [1:05:26<01:02, 20.68s/it]
+2026-09-30T01:51:02.252724+00:00  99%|█████████▉| 187/189 [1:05:48<00:41, 20.98s/it]
+2026-09-30T01:51:02.252962+00:00                                                    
+2026-09-30T01:51:02.253018+00:00 
+2026-09-30T01:51:23.379558+00:00  99%|█████████▉| 187/189 [1:05:48<00:41, 20.98s/it]
+2026-09-30T01:51:23.380143+00:00  99%|█████████▉| 188/189 [1:06:09<00:21, 21.02s/it]
+2026-09-30T01:51:23.380510+00:00                                                    
+2026-09-30T01:51:23.380555+00:00 
+2026-09-30T01:51:42.017984+00:00  99%|█████████▉| 188/189 [1:06:09<00:21, 21.02s/it]
+2026-09-30T01:51:42.018410+00:00 100%|██████████| 189/189 [1:06:28<00:00, 20.31s/it]
+2026-09-30T01:51:42.018577+00:00                                                    
+2026-09-30T01:51:42.018599+00:00 
+2026-09-30T01:51:42.726021+00:00 100%|██████████| 189/189 [1:06:28<00:00, 20.31s/it]
+2026-09-30T01:51:42.726143+00:00                                                    
+2026-09-30T01:51:42.726162+00:00 
+2026-09-30T01:51:42.730288+00:00 100%|██████████| 189/189 [1:06:28<00:00, 20.31s/it]
+2026-09-30T01:51:42.730349+00:00 100%|██████████| 189/189 [1:06:28<00:00, 21.10s/it]
+2026-09-30T01:51:42.732180+00:00 
+2026-09-30T01:51:42.732207+00:00 {'loss': '0.501', 'grad_norm': '2.416', 'learning_rate': '5e-06', 'entropy': '1.113', 'num_tokens': '5.735e+05', 'logits/chosen': '-2.184', 'logits/rejected': '-2.261', 'mean_token_accuracy': '0.5375', 'rewards/chosen': '0.8586', 'rewards/rejected': '0.4092', 'rewards/accuracies': '1', 'rewards/margins': '0.4495', 'logps/chosen': '-343.3', 'logps/rejected': '-344', 'epoch': '2.762'}
+2026-09-30T01:51:42.732223+00:00 {'loss': '0.4248', 'grad_norm': '2.49', 'learning_rate': '5e-06', 'entropy': '1.146', 'num_tokens': '5.774e+05', 'logits/chosen': '-2.163', 'logits/rejected': '-1.991', 'mean_token_accuracy': '0.5603', 'rewards/chosen': '0.7775', 'rewards/rejected': '0.101', 'rewards/accuracies': '1', 'rewards/margins': '0.6764', 'logps/chosen': '-328.6', 'logps/rejected': '-323.7', 'epoch': '2.778'}
+2026-09-30T01:51:42.732236+00:00 {'loss': '0.5095', 'grad_norm': '2.183', 'learning_rate': '5e-06', 'entropy': '1.157', 'num_tokens': '5.804e+05', 'logits/chosen': '-1.993', 'logits/rejected': '-1.832', 'mean_token_accuracy': '0.5587', 'rewards/chosen': '0.6423', 'rewards/rejected': '0.1726', 'rewards/accuracies': '0.875', 'rewards/margins': '0.4697', 'logps/chosen': '-273.4', 'logps/rejected': '-271.7', 'epoch': '2.794'}
+2026-09-30T01:51:42.732249+00:00 {'loss': '0.4328', 'grad_norm': '2.694', 'learning_rate': '5e-06', 'entropy': '1.003', 'num_tokens': '5.827e+05', 'logits/chosen': '-2.268', 'logits/rejected': '-2.121', 'mean_token_accuracy': '0.5653', 'rewards/chosen': '0.9655', 'rewards/rejected': '0.3332', 'rewards/accuracies': '1', 'rewards/margins': '0.6323', 'logps/chosen': '-252.1', 'logps/rejected': '-262.8', 'epoch': '2.81'}
+2026-09-30T01:51:42.732261+00:00 {'loss': '0.522', 'grad_norm': '2.513', 'learning_rate': '5e-06', 'entropy': '1.258', 'num_tokens': '5.873e+05', 'logits/chosen': '-2.114', 'logits/rejected': '-2.086', 'mean_token_accuracy': '0.5153', 'rewards/chosen': '0.611', 'rewards/rejected': '0.2163', 'rewards/accuracies': '0.875', 'rewards/margins': '0.3946', 'logps/chosen': '-341.9', 'logps/rejected': '-349.6', 'epoch': '2.825'}
+2026-09-30T01:51:42.732272+00:00 {'loss': '0.5147', 'grad_norm': '2.403', 'learning_rate': '5e-06', 'entropy': '1.101', 'num_tokens': '5.908e+05', 'logits/chosen': '-2.364', 'logits/rejected': '-2.274', 'mean_token_accuracy': '0.5318', 'rewards/chosen': '0.6897', 'rewards/rejected': '0.2738', 'rewards/accuracies': '1', 'rewards/margins': '0.4159', 'logps/chosen': '-276.6', 'logps/rejected': '-268.3', 'epoch': '2.841'}
+2026-09-30T01:51:42.732292+00:00 {'loss': '0.372', 'grad_norm': '2.203', 'learning_rate': '5e-06', 'entropy': '1.148', 'num_tokens': '5.936e+05', 'logits/chosen': '-2.246', 'logits/rejected': '-2.066', 'mean_token_accuracy': '0.512', 'rewards/chosen': '0.8966', 'rewards/rejected': '0.05734', 'rewards/accuracies': '1', 'rewards/margins': '0.8392', 'logps/chosen': '-227.2', 'logps/rejected': '-241.4', 'epoch': '2.857'}
+2026-09-30T01:51:42.732303+00:00 {'loss': '0.4385', 'grad_norm': '2.329', 'learning_rate': '5e-06', 'entropy': '1.218', 'num_tokens': '5.972e+05', 'logits/chosen': '-2.065', 'logits/rejected': '-1.94', 'mean_token_accuracy': '0.519', 'rewards/chosen': '0.8901', 'rewards/rejected': '0.251', 'rewards/accuracies': '1', 'rewards/margins': '0.6391', 'logps/chosen': '-311.9', 'logps/rejected': '-319.6', 'epoch': '2.873'}
+2026-09-30T01:51:42.732313+00:00 {'loss': '0.4859', 'grad_norm': '2.336', 'learning_rate': '5e-06', 'entropy': '1.338', 'num_tokens': '5.998e+05', 'logits/chosen': '-1.916', 'logits/rejected': '-1.812', 'mean_token_accuracy': '0.5087', 'rewards/chosen': '0.5372', 'rewards/rejected': '0.04073', 'rewards/accuracies': '0.875', 'rewards/margins': '0.4965', 'logps/chosen': '-271.4', 'logps/rejected': '-284', 'epoch': '2.889'}
+2026-09-30T01:51:42.732323+00:00 {'loss': '0.3634', 'grad_norm': '2.301', 'learning_rate': '5e-06', 'entropy': '0.9395', 'num_tokens': '6.028e+05', 'logits/chosen': '-2.136', 'logits/rejected': '-1.878', 'mean_token_accuracy': '0.591', 'rewards/chosen': '1.135', 'rewards/rejected': '0.2826', 'rewards/accuracies': '1', 'rewards/margins': '0.8527', 'logps/chosen': '-274.4', 'logps/rejected': '-298', 'epoch': '2.905'}
+2026-09-30T01:51:42.732333+00:00 {'loss': '0.4331', 'grad_norm': '2.305', 'learning_rate': '5e-06', 'entropy': '1.172', 'num_tokens': '6.068e+05', 'logits/chosen': '-2.15', 'logits/rejected': '-1.9', 'mean_token_accuracy': '0.5304', 'rewards/chosen': '0.8649', 'rewards/rejected': '0.2192', 'rewards/accuracies': '1', 'rewards/margins': '0.6457', 'logps/chosen': '-290.6', 'logps/rejected': '-302.3', 'epoch': '2.921'}
+2026-09-30T01:51:42.732354+00:00 {'loss': '0.4577', 'grad_norm': '2.567', 'learning_rate': '5e-06', 'entropy': '1.113', 'num_tokens': '6.099e+05', 'logits/chosen': '-2.338', 'logits/rejected': '-2.135', 'mean_token_accuracy': '0.5461', 'rewards/chosen': '0.9251', 'rewards/rejected': '0.3049', 'rewards/accuracies': '0.875', 'rewards/margins': '0.6202', 'logps/chosen': '-288', 'logps/rejected': '-313.3', 'epoch': '2.937'}
+2026-09-30T01:51:42.732364+00:00 {'loss': '0.4352', 'grad_norm': '2.327', 'learning_rate': '5e-06', 'entropy': '1.257', 'num_tokens': '6.126e+05', 'logits/chosen': '-1.998', 'logits/rejected': '-1.922', 'mean_token_accuracy': '0.5112', 'rewards/chosen': '0.7288', 'rewards/rejected': '0.0964', 'rewards/accuracies': '1', 'rewards/margins': '0.6324', 'logps/chosen': '-276.9', 'logps/rejected': '-273.1', 'epoch': '2.952'}
+2026-09-30T01:51:42.732373+00:00 {'loss': '0.428', 'grad_norm': '2.361', 'learning_rate': '5e-06', 'entropy': '1.291', 'num_tokens': '6.16e+05', 'logits/chosen': '-2.108', 'logits/rejected': '-1.784', 'mean_token_accuracy': '0.5404', 'rewards/chosen': '0.8855', 'rewards/rejected': '0.2099', 'rewards/accuracies': '0.875', 'rewards/margins': '0.6756', 'logps/chosen': '-325.4', 'logps/rejected': '-324', 'epoch': '2.968'}
+2026-09-30T01:51:42.732382+00:00 {'loss': '0.4401', 'grad_norm': '2.643', 'learning_rate': '5e-06', 'entropy': '1.057', 'num_tokens': '6.192e+05', 'logits/chosen': '-2.254', 'logits/rejected': '-2.132', 'mean_token_accuracy': '0.565', 'rewards/chosen': '0.7867', 'rewards/rejected': '0.1704', 'rewards/accuracies': '1', 'rewards/margins': '0.6164', 'logps/chosen': '-303.9', 'logps/rejected': '-293.5', 'epoch': '2.984'}
+2026-09-30T01:51:42.732395+00:00 {'loss': '0.4476', 'grad_norm': '3.203', 'learning_rate': '5e-06', 'entropy': '1.124', 'num_tokens': '6.217e+05', 'logits/chosen': '-2.094', 'logits/rejected': '-1.904', 'mean_token_accuracy': '0.5544', 'rewards/chosen': '0.7685', 'rewards/rejected': '0.1738', 'rewards/accuracies': '1', 'rewards/margins': '0.5947', 'logps/chosen': '-257.3', 'logps/rejected': '-285.2', 'epoch': '3'}
+2026-09-30T01:51:42.732408+00:00 {'train_runtime': '3989', 'train_samples_per_second': '0.379', 'train_steps_per_second': '0.047', 'train_loss': '0.5946', 'epoch': '3'}
+2026-09-30T01:51:42.732418+00:00 ╭──────────────────────── Soup Training: Qwen/Qwen3-8B ────────────────────────╮
+2026-09-30T01:51:42.732445+00:00 │ Epoch 3.0/3   100%                                                           │
+2026-09-30T01:51:42.732456+00:00 │ Step:  189/189                                                               │
+2026-09-30T01:51:42.732472+00:00 │ Loss:  0.4476    LR: 5.00e-06                                                │
+2026-09-30T01:51:42.732482+00:00 │ Speed: 0.05 it/s                                                             │
+2026-09-30T01:51:42.732492+00:00 │ GPU peak: 6.4/14.6 GB                                                        │
+2026-09-30T01:51:42.732501+00:00 │ Grad:  3.2028                                                                │
+2026-09-30T01:51:43.393854+00:00 ╰────────────────────────────────── Tesla T4 ──────────────────────────────────╯╭───────────────────────────── Training Complete! ─────────────────────────────╮
+2026-09-30T01:51:43.393969+00:00 │ Loss: 0.6931 -> 0.4476                                                       │
+2026-09-30T01:51:43.393987+00:00 │ Duration: 1h 6m                                                              │
+2026-09-30T01:51:43.393999+00:00 │ Output: /kaggle/working/dpo_20260930T003836Z/adapter                         │
+2026-09-30T01:51:43.394011+00:00 │ Run ID: run_20260930_003939_9bb32c29                                         │
+2026-09-30T01:51:43.394025+00:00 │                                                                              │
+2026-09-30T01:51:43.394271+00:00 │ Quick test:  soup chat --model /kaggle/working/dpo_20260930T003836Z/adapter  │
+2026-09-30T01:51:43.394304+00:00 │ Push to HF:  soup push --model /kaggle/working/dpo_20260930T003836Z/adapter  │
+2026-09-30T01:51:43.394315+00:00 │ Merge LoRA:  soup merge --adapter                                            │
+2026-09-30T01:51:43.394338+00:00 │ /kaggle/working/dpo_20260930T003836Z/adapter                                 │
+2026-09-30T01:51:43.394347+00:00 │ Export GGUF: soup export --model                                             │
+2026-09-30T01:51:43.394356+00:00 │ /kaggle/working/dpo_20260930T003836Z/adapter                                 │
+2026-09-30T01:51:43.394365+00:00 │ Run details: soup runs show run_20260930_003939_9bb32c29                     │
+2026-09-30T01:51:43.394374+00:00 ╰──────────────────────────────────────────────────────────────────────────────╯

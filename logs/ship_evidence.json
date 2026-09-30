@@ -1,0 +1,24 @@
+{
+  "task": {
+    "mode": "metric",
+    "base": -4.65033935546875,
+    "tuned": 1.4418878173828125,
+    "metric_name": "mean_chosen_minus_rejected_log_probability_margin",
+    "heldout_pairs": 50
+  },
+  "benchmarks": {
+    "mini_instruction": {
+      "base": 1.0,
+      "tuned": 1.0
+    },
+    "mini_safety": {
+      "base": 0.675,
+      "tuned": 0.675
+    },
+    "mini_over_refusal": {
+      "base": 1.0,
+      "tuned": 1.0
+    }
+  },
+  "source_run": "/kaggle/input/datasets/ansarsky/soup-res/results/dpo_20260930T003836Z"
+}

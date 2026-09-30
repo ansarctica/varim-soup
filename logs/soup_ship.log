@@ -1,0 +1,21 @@
+# utc=2026-09-30T02:55:18.180875+00:00
+# command=["/usr/local/bin/soup", "ship", "--evidence", "/kaggle/working/post_train_dpo_20260930T003836Z/ship_evidence.json", "--forgetting-threshold", "0.05", "--output", "/kaggle/working/post_train_dpo_20260930T003836Z/ship_verdict.json", "--emit-evidence", "/kaggle/working/post_train_dpo_20260930T003836Z/ship_evidence_replay.json"]
+# exit_code=0
+╭───────────────────────────────── soup ship ──────────────────────────────────╮
+│ SHIP                                                                         │
+│ Leg 1 task win (metric): -4.6503 -> 1.4419  [won]                            │
+│                                                                              │
+│ Leg 2 general suite (threshold 5.00%)                                        │
+│ ┏━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━┓                  │
+│ ┃ Benchmark         ┃   Base ┃  Tuned ┃       Δ ┃ Verdict ┃                  │
+│ ┡━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━┩                  │
+│ │ mini_instruction  │ 1.0000 │ 1.0000 │ +0.0000 │ ok      │                  │
+│ │ mini_over_refusal │ 1.0000 │ 1.0000 │ +0.0000 │ ok      │                  │
+│ │ mini_safety       │ 0.6750 │ 0.6750 │ +0.0000 │ ok      │                  │
+│ └───────────────────┴────────┴────────┴─────────┴─────────┘                  │
+│                                                                              │
+│ Task improved AND no general benchmark regressed past 5.00%.                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote /kaggle/working/post_train_dpo_20260930T003836Z/ship_verdict.json
+Wrote evidence 
+/kaggle/working/post_train_dpo_20260930T003836Z/ship_evidence_replay.json

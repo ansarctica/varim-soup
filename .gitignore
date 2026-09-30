@@ -1,0 +1,37 @@
+# macOS and editor metadata
+.DS_Store
+.obsidian/
+.idea/
+.vscode/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Experiment trackers and temporary files
+wandb/
+*.tmp
+*.swp
+*.log.tmp
+
+# Large model artifacts; keep reports, JSON/JSONL, and raw text/CSV logs
+**/checkpoint-*/
+**/*.safetensors
+**/*.bin
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.gguf
